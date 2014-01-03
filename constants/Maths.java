@@ -23,7 +23,7 @@ public class Maths {
     }
     
     public static int randInt() {
-        return r.get().nextInt();
+        return Math.abs(r.get().nextInt());
     }
     
     public static float randFloat() {
@@ -33,9 +33,13 @@ public class Maths {
     public static void randSeed(long seed) {
         r.get().setSeed(seed);
     }
+
+    public static Random getThreadRandom() {
+        return r.get();
+    }
     
     public static int randInt(int l, int h) {
-        return r.get().nextInt(h - l) + l;
+        return (int) randFloat(l, h);
     }
     
     public static float randFloat(float l, float h) {

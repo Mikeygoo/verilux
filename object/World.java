@@ -1,5 +1,7 @@
 package object;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
@@ -7,7 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import sampler.Jittered;
+import sampler.MultiJittered;
+import sampler.NRooks;
 import sampler.PureRandom;
+import sampler.Regular;
 import sampler.Sampler;
 import tracer.MultipleObjects;
 import tracer.ShadeRec;
@@ -27,9 +35,19 @@ public class World {
     public static void main(String[] args) throws IOException {
         World w = new World();
         
-        BufferedImage bi = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage bi = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
         w.renderScene(bi);
-        ImageIO.write(bi, "png", new File("outfile.png"));
+        //ImageIO.write(bi, "png", new File("outfile.png")); //save image
+        
+        JFrame jf = new JFrame() {
+            @Override
+            public void paint(Graphics grphcs) {
+                grphcs.drawImage(bi, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        
+        jf.setSize(500, 500);
+        jf.setVisible(true);
     }
     
     private ViewPlane vp;
@@ -47,7 +65,7 @@ public class World {
     }
 
     private void build() {
-        vp = new ViewPlane(1000, 1000, 0.01f, 1, new PureRandom(100, 1));
+        vp = new ViewPlane(500, 500, 0.02f, 1, new MultiJittered(25, 1));
         tracer = new MultipleObjects(this);
         backgroundColor = RGBColor.BLACK;
         
@@ -97,11 +115,31 @@ public class World {
                 }
                 
                 pixelColor.scaleTo(1.0f / vp.getNumSamples());
+                pixelColor.powTo(1.0f / vp.getGamma());
                 int[] ints = {(int) (255 * pixelColor.r),
                               (int) (255 * pixelColor.g),
                               (int) (255 * pixelColor.b)};
                 raster.setPixel(c, vp.getHres() - r - 1, ints);
             }
         }
+        
+        /* * * This is just Sampler testing code! * * */
+        //<editor-fold defaultstate="collapsed" desc="testing code">
+//        Graphics g = img.getGraphics();
+//        g.setColor(Color.white);
+//        g.fillRect(0, 0, 500, 500);
+//
+//        Sampler s = new MultiJittered(256, 100);
+//        Sampler.SamplerKey sk = new Sampler.SamplerKey();
+//
+//        g.setColor(Color.black);
+//
+//        for (int i = 0; i < 256; i++) {
+//            Point2D p = s.sampleUnitSquare(sk);
+//            int x = (int) (p.x * 500);
+//            int y = (int) (p.y * 500);
+//            g.fillRect(x-2, y-2, 4, 4);
+//        }
+        //</editor-fold>
     }
 }

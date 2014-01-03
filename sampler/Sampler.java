@@ -2,6 +2,7 @@ package sampler;
 
 import constants.Maths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 import util.Point2D;
 
@@ -23,7 +24,6 @@ public abstract class Sampler {
         
         generateSamples();
         setupShuffledIndices();
-        shuffleSamples();
     }
 
     public int getNumSamples() {
@@ -37,18 +37,23 @@ public abstract class Sampler {
     public abstract void generateSamples();
     
     public void setupShuffledIndices() {
-        //TODO
-    }
-    
-    public void shuffleSamples() {
-        //TODO
+        shuffledIndices.ensureCapacity(numSamples * numSets);
+        
+        ArrayList<Integer> setIndices = new ArrayList<Integer>();
+        for (int i = 0; i < numSamples; i++)
+            setIndices.add(i);
+        
+        for (int i = 0; i < numSets; i++) {
+            Collections.shuffle(setIndices, Maths.getThreadRandom());
+            shuffledIndices.addAll(setIndices);
+        }
     }
     
     public Point2D sampleUnitSquare(SamplerKey sk) {
         if (sk.count.get() % numSamples == 0)
-            sk.jump.set((Maths.randInt() % numSets) * numSamples);
+            sk.jump.set((int) (Maths.randFloat() * numSets) * numSamples);
         
-        return samples.get(sk.jump.get() + sk.count.getAndIncrement() % numSamples);
+        return samples.get(sk.jump.get() + shuffledIndices.get(sk.count.getAndIncrement() % numSamples));
     }
     
     public static class SamplerKey {

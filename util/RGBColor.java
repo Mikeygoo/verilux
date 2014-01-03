@@ -7,6 +7,9 @@ package util;
 public class RGBColor {
     public static final RGBColor WHITE = new RGBColor(1);
     public static final RGBColor BLACK = new RGBColor(0);
+    public static final RGBColor RED   = new RGBColor(1, 0, 0);
+    public static final RGBColor GREEN = new RGBColor(0, 1, 0);
+    public static final RGBColor BLUE  = new RGBColor(0, 0, 1);
     
     public float r, g, b;
 
@@ -38,6 +41,12 @@ public class RGBColor {
         return new RGBColor((float) Math.pow(r, p), 
                             (float) Math.pow(g, p), 
                             (float) Math.pow(b, p));
+    }
+
+    public void powTo(float p) {
+        r = (float) Math.pow(r, p);
+        g = (float) Math.pow(g, p);
+        b = (float) Math.pow(b, p);
     }
     
     public RGBColor scale(float f) {
