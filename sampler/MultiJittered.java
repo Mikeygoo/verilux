@@ -10,6 +10,10 @@ import util.Point2D;
 public class MultiJittered extends Sampler {
     private int n;
 
+    public MultiJittered(int numSamps, int numSets, int hemisphereCosinePower) {
+        super(numSamps, numSets, hemisphereCosinePower);
+    }
+
     public MultiJittered(int nSamps, int nSets) {
         super(nSamps, nSets);
     }

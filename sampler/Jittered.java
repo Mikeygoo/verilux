@@ -8,6 +8,10 @@ import util.Point2D;
  * @author michael
  */
 public class Jittered extends Sampler {
+    public Jittered(int numSamps, int numSets, int hemisphereCosinePower) {
+        super(numSamps, numSets, hemisphereCosinePower);
+    }
+
     public Jittered(int numSamps, int numSets) {
         super(numSamps, numSets);
     }

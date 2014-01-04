@@ -7,6 +7,10 @@ import util.Point2D;
  * @author michael
  */
 public class Regular extends Sampler {
+    public Regular(int numSamps, int numSets, int hemisphereCosinePower) {
+        super(numSamps, numSets, hemisphereCosinePower);
+    }
+    
     public Regular(int nSamps, int nSets) {
         super(nSamps, nSets);
     }

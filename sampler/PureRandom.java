@@ -8,6 +8,10 @@ import util.Point2D;
  * @author michael
  */
 public class PureRandom extends Sampler {
+    public PureRandom(int numSamps, int numSets, int hemisphereCosinePower) {
+        super(numSamps, numSets, hemisphereCosinePower);
+    }
+
     public PureRandom(int numSamps, int numSets) {
         super(numSamps, numSets);
     }

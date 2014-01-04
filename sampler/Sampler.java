@@ -19,7 +19,7 @@ public abstract class Sampler {
     protected ArrayList<Point3D> hemisphereSamples;
     protected ArrayList<Integer> shuffledIndices;
 
-    public Sampler(int nSamps, int nSets) {
+    public Sampler(int nSamps, int nSets, float hemisphereCosinePower) {
         numSamples = nSamps;
         numSets = nSets;
         samples = new ArrayList<Point2D>();
@@ -28,6 +28,11 @@ public abstract class Sampler {
         generateSamples();
         setupShuffledIndices();
         mapSamplesToUnitDisk();
+        mapSamplesToUnitHemisphere(hemisphereCosinePower);
+    }
+
+    public Sampler(int nSamps, int nSets) {
+        this(nSamps, nSets, 0);
     }
 
     public int getNumSamples() {
@@ -86,6 +91,23 @@ public abstract class Sampler {
             sp.x = r * Math.cos(phi);
             sp.y = r * Math.sin(phi);
             diskSamples.add(sp);
+        }
+    }
+    
+    public void mapSamplesToUnitHemisphere(double e) {
+        hemisphereSamples.ensureCapacity(samples.size());
+
+        for (Point2D squareSample : samples) {
+            double cosPhi = Math.cos(Constants.TWO_PI * squareSample.x);
+            double sinPhi = Math.sin(Constants.TWO_PI * squareSample.x);
+            double cosTheta = Math.pow(1.0 - squareSample.y, 1.0 / (e + 1.0));
+            double sinTheta = Math.sqrt(1.0 - cosTheta * cosTheta);
+            
+            double pu = sinTheta * cosPhi;
+            double pv = sinTheta * sinPhi;
+            double pw = cosTheta;
+            
+            hemisphereSamples.add(new Point3D(pu, pv, pw));
         }
     }
 

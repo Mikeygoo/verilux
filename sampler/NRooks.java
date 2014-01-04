@@ -12,6 +12,10 @@ public class NRooks extends Sampler {
         super(nSamps, nSets);
     }
 
+    public NRooks(int numSamps, int numSets, int hemisphereCosinePower) {
+        super(numSamps, numSets, hemisphereCosinePower);
+    }
+
     @Override
     protected void generateSamples() {
         for (int p = 0; p < numSets; p++) {
