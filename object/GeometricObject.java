@@ -26,6 +26,6 @@ public abstract class GeometricObject {
     public void setColor(RGBColor color) {
         this.color = color;
     }
-    
+
     public abstract boolean hit(Ray r, ShadeRec sr);
 }

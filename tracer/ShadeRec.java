@@ -19,7 +19,7 @@ public class ShadeRec {
 
     public ShadeRec() {
     }
-    
+
     public ShadeRec(World w) {
         world = w;
         hitAnObject = false;

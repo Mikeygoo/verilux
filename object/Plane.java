@@ -16,7 +16,7 @@ public class Plane extends GeometricObject {
     private Normal normal;
 
     public Plane() {
-        
+
     }
 
     public Plane(RGBColor col, Point3D p, Normal n) {
@@ -44,7 +44,7 @@ public class Plane extends GeometricObject {
     @Override
     public boolean hit(Ray r, ShadeRec sr) {
         double t = (point.subtract(r.o)).dot(normal) / r.d.dot(normal);
-        
+
         if (t > K_EPSILON && t < sr.hitDistance) {
             sr.hitDistance = t;
             sr.normal = normal;

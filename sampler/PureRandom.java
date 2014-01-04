@@ -13,7 +13,7 @@ public class PureRandom extends Sampler {
     }
 
     @Override
-    public void generateSamples() {
+    protected void generateSamples() {
         for (int i = 0; i < numSamples * numSets; i++)
             samples.add(new Point2D(Maths.randFloat(), Maths.randFloat()));
     }

@@ -13,7 +13,7 @@ public class NRooks extends Sampler {
     }
 
     @Override
-    public void generateSamples() {
+    protected void generateSamples() {
         for (int p = 0; p < numSets; p++) {
             for (int j = 0; j < numSamples; j++) {
                 Point2D sp = new Point2D();
@@ -22,15 +22,15 @@ public class NRooks extends Sampler {
                 samples.add(sp);
             }
         }
-        
+
         shuffleXCoordinates();
         shuffleYCoordinates();
     }
-    
+
     private void shuffleXCoordinates() {
         for (int p = 0; p < numSets; p++) {
-            for (int i = 0; i < numSamples-1; i++) {
-                int target = (int) (Maths.randFloat() * numSamples) + p * numSamples;
+            for (int i = 0; i < numSamples - 1; i++) {
+                int target = (int)(Maths.randFloat() * numSamples) + p * numSamples;
                 Point2D p1 = samples.get(i + p * numSamples + 1);
                 Point2D p2 = samples.get(target);
                 double temp = p1.x;
@@ -42,8 +42,8 @@ public class NRooks extends Sampler {
 
     private void shuffleYCoordinates() {
         for (int p = 0; p < numSets; p++) {
-            for (int i = 0; i < numSamples-1; i++) {
-                int target = (int) (Maths.randFloat() * numSamples) + p * numSamples;
+            for (int i = 0; i < numSamples - 1; i++) {
+                int target = (int)(Maths.randFloat() * numSamples) + p * numSamples;
                 Point2D p1 = samples.get(i + p * numSamples + 1);
                 Point2D p2 = samples.get(target);
                 double temp = p1.y;

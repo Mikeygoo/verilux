@@ -15,11 +15,11 @@ public class Sphere extends GeometricObject {
     private static final double K_EPSILON = 0.00001;
     private Point3D center;
     private double radius;
-    
+
     public Sphere() {
         this(RGBColor.WHITE, new Point3D(0), 1);
     }
-    
+
     public Sphere(RGBColor col, Point3D ctr, double rad) {
         super(col);
         center = ctr;
@@ -50,27 +50,27 @@ public class Sphere extends GeometricObject {
         double b = 2.0 * temp.dot(r.d);
         double c = temp.dot(temp) - radius * radius;
         double disc = b * b - 4.0 * a * c;
-        
+
         if (disc < 0.0)
             return false;
         else {
             double e = Math.sqrt(disc);
             double denom = 2.0 * a;
-            
+
             t = (-b - e) / denom;
-            
+
             if (t > sr.hitDistance) //if the smallest is too big, ditch now.
                 return false;
-            
+
             if (t > K_EPSILON) {
                 sr.hitDistance = t;
                 sr.normal = new Normal((temp.add(r.d.scale(t))).scale(1.0 / radius)); // (temp + t * r.d) / radius
                 sr.localHitPoint = r.o.add(r.d.scale(t));
                 return true;
             }
-            
+
             t = (-b + e) / denom;
-            
+
             if (t > K_EPSILON && t < sr.hitDistance) {
                 sr.hitDistance = t;
                 sr.normal = new Normal((temp.add(r.d.scale(t))).scale(1.0 / radius)); // (temp + t * r.d) / radius
@@ -78,7 +78,7 @@ public class Sphere extends GeometricObject {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

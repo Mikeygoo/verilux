@@ -13,9 +13,9 @@ public class Jittered extends Sampler {
     }
 
     @Override
-    public void generateSamples() {
+    protected void generateSamples() {
         int n = (int) Math.sqrt(numSamples);
-        
+
         for (int p = 0; p < numSets; p++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < n; k++) {

@@ -11,7 +11,7 @@ public class Point2D {
         this.x = x;
         this.y = y;
     }
-    
+
     public Point2D(double n) {
         this(n, n);
     }
@@ -19,7 +19,7 @@ public class Point2D {
     public Point2D() {
         this(0, 0);
     }
-    
+
     public Point2D scale(double d) {
         return new Point2D(d * x, d * y);
     }

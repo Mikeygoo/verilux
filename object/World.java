@@ -34,22 +34,24 @@ import util.Vector3D;
 public class World {
     public static void main(String[] args) throws IOException {
         World w = new World();
-        
+
         final BufferedImage bi = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+        long millis = System.currentTimeMillis();
         w.renderScene(bi);
+        System.out.println("It took " + (System.currentTimeMillis() - millis) + " milliseconds to render.");
         //ImageIO.write(bi, "png", new File("outfile.png")); //save image
-        
+
         JFrame jf = new JFrame() {
             @Override
             public void paint(Graphics grphcs) {
                 grphcs.drawImage(bi, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        
+
         jf.setSize(500, 500);
         jf.setVisible(true);
     }
-    
+
     private ViewPlane vp;
     private RGBColor backgroundColor;
     private Tracer tracer;
@@ -68,34 +70,34 @@ public class World {
         vp = new ViewPlane(500, 500, 0.02f, 1, new MultiJittered(25, 1));
         tracer = new MultipleObjects(this);
         backgroundColor = RGBColor.BLACK;
-        
+
         Sphere sa = new Sphere(new RGBColor(1, 0, 0), new Point3D(0, 0, 0), 3);
         objects.add(sa);
-        
+
         Sphere sb = new Sphere(new RGBColor(0, 1, 0.5f), new Point3D(0, 2, 0.5), 2);
         objects.add(sb);
-        
+
         Plane p = new Plane(new RGBColor(0, 0.25f, 0.25f), new Point3D(0, 0, 0), new Normal(0, 1, 1));
         objects.add(p);
     }
-    
+
     public ShadeRec hitBareBonesObjects(Ray r) {
         ShadeRec s = new ShadeRec(this);
-        
+
         for (GeometricObject g : objects) {
             if (g.hit(r, s)) {
                 s.color = g.getColor();
                 s.hitAnObject = true;
             }
         }
-        
+
         return s;
     }
-    
+
     public void renderScene(BufferedImage img) {
         int n = (int) Math.sqrt(vp.getNumSamples());
         WritableRaster raster = img.getRaster();
-        
+
         //TODO: In the future, introduce some type of multithreaded handling of rendering.
         for (int r = 0; r < vp.getVres(); r++) {
             for (int c = 0; c < vp.getHres(); c++) {
@@ -103,7 +105,7 @@ public class World {
                 RGBColor pixelColor = new RGBColor(0); //BLACK
                 Ray ray = new Ray();
                 ray.d = new Vector3D(0, 0, -1);
-                
+
                 for (int p = 0; p < n; p++) {
                     for (int q = 0; q < n; q++) {
                         Point2D pp = new Point2D(0), sp = vp.getSampler().sampleUnitSquare(sk);
@@ -113,16 +115,17 @@ public class World {
                         pixelColor.addTo(tracer.traceRay(ray));
                     }
                 }
-                
+
                 pixelColor.scaleTo(1.0f / vp.getNumSamples());
                 pixelColor.powTo(1.0f / vp.getGamma());
-                int[] ints = {(int) (255 * pixelColor.r),
-                              (int) (255 * pixelColor.g),
-                              (int) (255 * pixelColor.b)};
+                int[] ints = {(int)(255 * pixelColor.r),
+                              (int)(255 * pixelColor.g),
+                              (int)(255 * pixelColor.b)
+                             };
                 raster.setPixel(c, vp.getHres() - r - 1, ints);
             }
         }
-        
+
         /* * * This is just Sampler testing code! * * */
         //<editor-fold defaultstate="collapsed" desc="testing code">
 //        Graphics g = img.getGraphics();

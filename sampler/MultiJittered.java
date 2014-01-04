@@ -9,13 +9,13 @@ import util.Point2D;
  */
 public class MultiJittered extends Sampler {
     private int n;
-    
+
     public MultiJittered(int nSamps, int nSets) {
         super(nSamps, nSets);
     }
 
     @Override
-    public void generateSamples() {
+    protected void generateSamples() {
         n = (int) Math.sqrt(numSamples);
         float subcellWidth = 1.0f / ((float) numSamples);
 
@@ -31,11 +31,11 @@ public class MultiJittered extends Sampler {
                 }
             }
         }
-        
+
         shuffleXCoordinates();
         shuffleYCoordinates();
-    } 
- 
+    }
+
     private void shuffleXCoordinates() {
         for (int p = 0; p < numSets; p++) {
             for (int i = 0; i < n; i++) {
