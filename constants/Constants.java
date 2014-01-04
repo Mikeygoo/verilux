@@ -7,6 +7,7 @@ package constants;
 public class Constants {
     public static final double PI = 3.1415926535897932384;
     public static final double TWO_PI = PI * 2;
+    public static final double PI_OVER_FOUR = PI / 4.0;
     public static final double PI_OVER_180 = PI / 180.0;
     public static final double INV_PI = 1.0 / PI;
     public static final double INV_TWO_PI = 1.0 / (2 * PI);
