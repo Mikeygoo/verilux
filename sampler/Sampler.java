@@ -23,6 +23,8 @@ public abstract class Sampler {
         numSamples = nSamps;
         numSets = nSets;
         samples = new ArrayList<Point2D>();
+        diskSamples = new ArrayList<Point2D>();
+        hemisphereSamples = new ArrayList<Point3D>();
         shuffledIndices = new ArrayList<Integer>();
 
         generateSamples();

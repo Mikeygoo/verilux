@@ -5,7 +5,7 @@ package util;
  * @author michael
  */
 public class Vector3D {
-    double x, y, z;
+    public double x, y, z;
 
     public Vector3D(double x, double y, double z) {
         this.x = x;
@@ -71,6 +71,18 @@ public class Vector3D {
 
     public double dot(Normal n) {
         return x * n.x + y * n.y + z * n.z;
+    }
+    
+    public Vector3D normalize() {
+        double k = 1.0 * Math.sqrt(x * x + y * y + z * z);
+        return new Vector3D(k * x, k * y, k * z);
+    }
+    
+    public void normalizeTo() {
+        double k = 1.0 / Math.sqrt(x * x + y * y + z * z);
+        x *= k;
+        y *= k;
+        z *= k;
     }
 
     @Override
