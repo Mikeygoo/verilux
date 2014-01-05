@@ -95,7 +95,7 @@ public abstract class Sampler {
             diskSamples.add(sp);
         }
     }
-    
+
     public void mapSamplesToUnitHemisphere(double e) {
         hemisphereSamples.ensureCapacity(samples.size());
 
@@ -104,11 +104,11 @@ public abstract class Sampler {
             double sinPhi = Math.sin(Constants.TWO_PI * squareSample.x);
             double cosTheta = Math.pow(1.0 - squareSample.y, 1.0 / (e + 1.0));
             double sinTheta = Math.sqrt(1.0 - cosTheta * cosTheta);
-            
+
             double pu = sinTheta * cosPhi;
             double pv = sinTheta * sinPhi;
             double pw = cosTheta;
-            
+
             hemisphereSamples.add(new Point3D(pu, pv, pw));
         }
     }

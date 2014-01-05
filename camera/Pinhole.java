@@ -24,13 +24,13 @@ import util.Vector3D;
  */
 public class Pinhole extends Camera {
     private double d; //view plane distance
-    private double zoom = 1; //zoom factor
-    
+    protected double zoom = 1; //zoom factor
+
     public Pinhole(Point3D eye, Point3D lookat, Vector3D up, double viewPlaneDistance) {
         super(eye, lookat, up);
         d = viewPlaneDistance;
     }
-    
+
     public Pinhole(Point3D eye, Point3D lookat, double viewPlaneDistance) {
         this(eye, lookat, new Vector3D(0, 1, 0), viewPlaneDistance);
     }
@@ -39,9 +39,9 @@ public class Pinhole extends Camera {
     public void renderSceneSlice(World world, BufferedImage img, int lr, int hr, int lc, int hc) {
         ViewPlane vp = world.getViewPlane();
         double s = vp.getS() / zoom;
-        
+
         WritableRaster raster = img.getRaster();
-        
+
         for (int r = lr; r < hr; r++) {
             for (int c = lc; c < hc; c++) {
                 Sampler.SamplerKey sk = new Sampler.SamplerKey();
@@ -56,21 +56,29 @@ public class Pinhole extends Camera {
                     ray.d = getRayDirection(pp);
                     L.addTo(world.getTracer().traceRay(ray));
                 }
-                
+
 
                 L.scaleTo(1.0f / vp.getNumSamples());
                 L.powTo(1.0f / vp.getGamma());
-                
+
                 int[] ints = new int[] {(int)(255 * L.r),
-                    (int)(255 * L.g),
-                    (int)(255 * L.b)
-                };
-                
+                                        (int)(255 * L.g),
+                                        (int)(255 * L.b)
+                                       };
+
                 raster.setPixel(c, vp.getVres() - r - 1, ints);
                 //System.out.println("Printed pixel "+r + ", "+ c);
                 //System.out.flush();
             }
         }
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
     }
 
     private Vector3D getRayDirection(Point2D pp) {
