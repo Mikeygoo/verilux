@@ -1,6 +1,6 @@
 package sampler;
 
-import constants.Maths;
+import constant.Maths;
 import util.Point2D;
 
 /**

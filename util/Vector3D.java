@@ -74,7 +74,7 @@ public class Vector3D {
     }
 
     public Vector3D normalize() {
-        double k = 1.0 * Math.sqrt(x * x + y * y + z * z);
+        double k = 1.0 / Math.sqrt(x * x + y * y + z * z);
         return new Vector3D(k * x, k * y, k * z);
     }
 

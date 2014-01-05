@@ -1,5 +1,6 @@
 package object;
 
+import material.Material;
 import tracer.ShadeRec;
 import util.RGBColor;
 import util.Ray;
@@ -9,23 +10,23 @@ import util.Ray;
  * @author michael
  */
 public abstract class GeometricObject {
-    private RGBColor color;
+    private Material material;
 
     public GeometricObject() {
-        color = RGBColor.BLACK;
+        //TODO: Default material.
     }
 
-    public GeometricObject(RGBColor color) {
-        this.color = color;
+    public GeometricObject(Material material) {
+        this.material = material;
     }
 
-    public RGBColor getColor() {
-        return color;
+    public Material getMaterial() {
+        return material;
     }
 
-    public void setColor(RGBColor color) {
-        this.color = color;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
-    public abstract boolean hit(Ray r, ShadeRec sr);
+    public abstract double hit(Ray r, ShadeRec sr);
 }

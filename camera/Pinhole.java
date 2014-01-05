@@ -60,6 +60,7 @@ public class Pinhole extends Camera {
 
                 L.scaleTo(1.0f / vp.getNumSamples());
                 L.powTo(1.0f / vp.getGamma());
+                L.clampNormally();
 
                 int[] ints = new int[] {(int)(255 * L.r),
                                         (int)(255 * L.g),

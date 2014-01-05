@@ -1,5 +1,7 @@
 package util;
 
+import constant.Maths;
+
 /**
  *
  * @author michael
@@ -57,5 +59,15 @@ public class RGBColor {
         r *= f;
         g *= f;
         b *= f;
+    }
+
+    public RGBColor colorProduct(RGBColor a) {
+        return new RGBColor(r * a.r, g * a.g, b * a.b);
+    }
+
+    public void clampNormally() {
+        r = Maths.clamp(r, 0, 1);
+        g = Maths.clamp(g, 0, 1);
+        b = Maths.clamp(b, 0, 1);
     }
 }

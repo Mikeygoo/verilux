@@ -1,6 +1,6 @@
 package camera;
 
-import constants.Constants;
+import constant.Constants;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,6 +34,10 @@ public abstract class Camera {
     private void computeUVW() {
         w = eye.subtract(lookat);
         w.normalizeTo();
+
+        if (Math.abs(w.dot(up)) > 0.9)
+            up = new Vector3D(1, 0, 0);
+
         u = up.cross(w);
         u.normalizeTo();
         v = w.cross(u);
@@ -115,8 +119,10 @@ public abstract class Camera {
     public double getTotalRoll() {
         return totalRoll;
     }
-    
+
     public void unroll() {
         roll(-totalRoll);
     }
+
+    //TODO: yaw, pitch
 }

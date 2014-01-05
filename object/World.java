@@ -2,32 +2,23 @@ package object;
 
 import camera.Camera;
 import camera.Pinhole;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import sampler.Jittered;
-import sampler.MultiJittered;
-import sampler.NRooks;
+import light.Ambient;
+import light.Light;
+import light.PointLight;
+import material.Matte;
 import sampler.PureRandom;
-import sampler.Regular;
-import sampler.Sampler;
-import tracer.MultipleObjects;
+import tracer.RayCast;
 import tracer.ShadeRec;
 import tracer.Tracer;
 import util.Normal;
-import util.Point2D;
 import util.Point3D;
 import util.RGBColor;
 import util.Ray;
-import util.Vector3D;
 
 /**
  *
@@ -56,12 +47,15 @@ public class World {
 
     private ViewPlane vp;
     private RGBColor backgroundColor;
+    private Light ambient;
     private Tracer tracer;
     private ArrayList<GeometricObject> objects;
+    private ArrayList<Light> lights;
     private Camera camera;
 
     public World() {
         objects = new ArrayList<GeometricObject>();
+        lights = new ArrayList<Light>();
         build();
     }
 
@@ -70,32 +64,62 @@ public class World {
     }
 
     private void build() {
+        /////////////////////////////////////////////////////////////////////////////////
+        //                                    ***                                      //
+        ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
         vp = new ViewPlane(1000, 1000, 0.01f, 1, new PureRandom(25, 1));
-        tracer = new MultipleObjects(this);
         backgroundColor = RGBColor.BLACK;
-        camera = new Pinhole(new Point3D(0, 2, 5), new Point3D(0), 2);
+        ambient = new Ambient();
+        tracer = new RayCast(this);
+        camera = new Pinhole(new Point3D(0, 2, 5), new Point3D(0, 0, 0), 1);
 
-        Sphere sa = new Sphere(new RGBColor(1, 0, 0), new Point3D(0, 0, 0), 3);
+        /////////////////////////////////////////////////////////////////////////////////
+        //                                    ***                                      //
+        //////////////////////////////// ADD THE OBJECTS ////////////////////////////////
+        Sphere sa = new Sphere(new Matte(0.01f, 0.7f, RGBColor.RED), new Point3D(0, 0, 0), 3);
         objects.add(sa);
 
-        Sphere sb = new Sphere(new RGBColor(0, 1, 0.5f), new Point3D(0, 2, 0.5), 2);
+        Sphere sb = new Sphere(new Matte(0.01f, 1f, RGBColor.GREEN), new Point3D(0, 2, 0.5), 2);
         objects.add(sb);
 
-        Plane p = new Plane(new RGBColor(0, 0.25f, 0.25f), new Point3D(0, 0, 0), new Normal(0, 1, 1));
+        Plane p = new Plane(new Matte(0.01f, 1f, RGBColor.BLUE), new Point3D(0, -10, 0), new Normal(0, 1, 0));
         objects.add(p);
+
+        /////////////////////////////////////////////////////////////////////////////////
+        //                                    ***                                      //
+        //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
+        PointLight pl = new PointLight(new Point3D(10, 10, 10));
+        pl.setLs(3);
+        lights.add(pl);
     }
 
-    public ShadeRec hitBareBonesObjects(Ray r) {
-        ShadeRec s = new ShadeRec(this);
+    public ShadeRec hitObjects(Ray r) {
+        ShadeRec sr = new ShadeRec(this);
+        double tmin = Double.MAX_VALUE;
+        Normal normal = null;
+        Point3D localHitPoint = null;
 
         for (GeometricObject g : objects) {
-            if (g.hit(r, s)) {
-                s.color = g.getColor();
-                s.hitAnObject = true;
+            double t;
+
+            if ((t = g.hit(r, sr)) < tmin) {
+                //System.out.println("Boom at "+sr.localHitPoint);
+                sr.hitAnObject = true;
+                tmin = t;
+                sr.material = g.getMaterial();
+                sr.hitPoint = r.o.add(r.d.scale(t));
+                normal = sr.normal;
+                localHitPoint = sr.localHitPoint;
             }
         }
 
-        return s;
+        if (sr.hitAnObject) {
+            sr.hitDistance = tmin;
+            sr.normal = normal;
+            sr.localHitPoint = localHitPoint;
+        }
+
+        return sr;
     }
 
     public void renderScene(BufferedImage img) {
@@ -127,5 +151,13 @@ public class World {
 
     public Tracer getTracer() {
         return tracer;
+    }
+
+    public Light getAmbient() {
+        return ambient;
+    }
+
+    public Iterable<Light> getLights() {
+        return lights;
     }
 }

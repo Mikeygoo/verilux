@@ -1,4 +1,4 @@
-package constants;
+package constant;
 
 import java.util.Random;
 
@@ -51,7 +51,7 @@ public class Maths {
     }
 
     public static float clamp(float x, float l, float h) {
-        return x < h ? (x > l ? x : l) : h;
+        return (x > h ? h : (x < l ? l : x));
     }
 
     public static int solveQuadratic(double[] c, double[] s) {

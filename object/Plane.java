@@ -1,5 +1,6 @@
 package object;
 
+import material.Material;
 import tracer.ShadeRec;
 import util.Normal;
 import util.Point3D;
@@ -15,12 +16,8 @@ public class Plane extends GeometricObject {
     private Point3D point;
     private Normal normal;
 
-    public Plane() {
-
-    }
-
-    public Plane(RGBColor col, Point3D p, Normal n) {
-        super(col);
+    public Plane(Material m, Point3D p, Normal n) {
+        super(m);
         point = p;
         normal = n;
     }
@@ -42,15 +39,14 @@ public class Plane extends GeometricObject {
     }
 
     @Override
-    public boolean hit(Ray r, ShadeRec sr) {
+    public double hit(Ray r, ShadeRec sr) {
         double t = (point.subtract(r.o)).dot(normal) / r.d.dot(normal);
 
-        if (t > K_EPSILON && t < sr.hitDistance) {
-            sr.hitDistance = t;
+        if (t > K_EPSILON) {
             sr.normal = normal;
             sr.localHitPoint = r.o.add(r.d.scale(t)); // r.o + t * r.d
-            return true;
+            return t;
         } else
-            return false;
+            return Double.POSITIVE_INFINITY;
     }
 }

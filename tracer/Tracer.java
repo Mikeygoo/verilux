@@ -20,4 +20,6 @@ public abstract class Tracer {
     }
 
     public abstract RGBColor traceRay(Ray r);
+    //public abstract RGBColor traceRay(Ray r, int depth);
+    //public abstract RGBColor traceRay(Ray r, AtomicDouble tReference, int depth); //TODO: Program AtomicDouble wrapping AtomicLong (double bits to long etc.)
 }
