@@ -21,6 +21,7 @@ public abstract class Camera {
     protected Vector3D up;
     protected Vector3D u, v, w;
     protected float exposure = 1;
+    protected double totalRoll = 0.0;
 
     public Camera(Point3D eye, Point3D lookat, Vector3D up) {
         this.eye = eye;
@@ -100,6 +101,7 @@ public abstract class Camera {
     }
 
     public void roll(double degrees) {
+        totalRoll += degrees;
         double u0 = w.x, v0 = w.y, w0 = w.z;
         double x = up.x, y = up.y, z = up.z;
         double t = degrees * Constants.PI_OVER_180;
@@ -108,5 +110,13 @@ public abstract class Camera {
                                         w0 * (u0 * x + v0 * y + w0 * z) * (1 - Math.cos(t)) + z * Math.cos(t) + (u0 * y - v0 * x) * Math.sin(t));
         up = upPrime;
         computeUVW();
+    }
+
+    public double getTotalRoll() {
+        return totalRoll;
+    }
+    
+    public void unroll() {
+        roll(-totalRoll);
     }
 }
