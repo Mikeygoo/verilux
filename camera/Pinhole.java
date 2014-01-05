@@ -2,6 +2,13 @@ package camera;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import object.ViewPlane;
 import object.World;
 import sampler.Sampler;
@@ -29,14 +36,14 @@ public class Pinhole extends Camera {
     }
 
     @Override
-    public void renderScene(World world, BufferedImage img) {
+    public void renderSceneSlice(World world, BufferedImage img, int lr, int hr, int lc, int hc) {
         ViewPlane vp = world.getViewPlane();
-        WritableRaster raster = img.getRaster();
         double s = vp.getS() / zoom;
-
-        //TODO: In the future, introduce some type of multithreaded handling of rendering.
-        for (int r = 0; r < vp.getVres(); r++) {
-            for (int c = 0; c < vp.getHres(); c++) {
+        
+        WritableRaster raster = img.getRaster();
+        
+        for (int r = lr; r < hr; r++) {
+            for (int c = lc; c < hc; c++) {
                 Sampler.SamplerKey sk = new Sampler.SamplerKey();
                 RGBColor L = new RGBColor(0); //BLACK
                 Ray ray = new Ray();
@@ -53,11 +60,15 @@ public class Pinhole extends Camera {
 
                 L.scaleTo(1.0f / vp.getNumSamples());
                 L.powTo(1.0f / vp.getGamma());
-                int[] ints = {(int)(255 * L.r),
-                              (int)(255 * L.g),
-                              (int)(255 * L.b)
-                             };
-                raster.setPixel(c, vp.getHres() - r - 1, ints);
+                
+                int[] ints = new int[] {(int)(255 * L.r),
+                    (int)(255 * L.g),
+                    (int)(255 * L.b)
+                };
+                
+                raster.setPixel(c, vp.getVres() - r - 1, ints);
+                //System.out.println("Printed pixel "+r + ", "+ c);
+                //System.out.flush();
             }
         }
     }

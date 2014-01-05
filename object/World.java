@@ -70,7 +70,7 @@ public class World {
     }
 
     private void build() {
-        vp = new ViewPlane(1000, 1000, 0.01f, 1, new PureRandom(100, 1));
+        vp = new ViewPlane(1000, 1000, 0.01f, 1, new PureRandom(25, 1));
         tracer = new MultipleObjects(this);
         backgroundColor = RGBColor.BLACK;
         camera = new Pinhole(new Point3D(0, 2, 5), new Point3D(0), 2);
