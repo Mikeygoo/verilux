@@ -44,11 +44,7 @@ public class Ambient extends Light {
         this.color = color;
     }
 
-    public float getLs() {
-        return ls;
-    }
-
-    public void setLs(float ls) {
+    public void setRadiance(float ls) {
         this.ls = ls;
     }
 }

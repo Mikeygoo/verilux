@@ -1,4 +1,4 @@
-package brdf;
+package material.brdf;
 
 import sampler.MultiJittered;
 import sampler.Sampler;

@@ -4,14 +4,19 @@ import camera.Camera;
 import camera.Pinhole;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import light.Ambient;
 import light.Light;
 import light.PointLight;
 import material.Matte;
+import material.Phong;
+import sampler.MultiJittered;
 import sampler.PureRandom;
+import sampler.Regular;
 import tracer.RayCast;
 import tracer.ShadeRec;
 import tracer.Tracer;
@@ -32,7 +37,9 @@ public class World {
         long millis = System.currentTimeMillis();
         w.renderScene(bi);
         System.out.println("It took " + (System.currentTimeMillis() - millis) + " milliseconds to render.");
-        //ImageIO.write(bi, "png", new File("outfile.png")); //save image
+        
+        ImageIO.write(bi, "png", new File("outfile.png")); //save image
+        System.out.println("Image saved as outfile.png");
 
         JFrame jf = new JFrame() {
             @Override
@@ -67,30 +74,57 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
-        vp = new ViewPlane(1000, 1000, 0.01f, 1, new PureRandom(25, 1));
-        backgroundColor = RGBColor.BLACK;
-        ambient = new Ambient();
-        tracer = new RayCast(this);
-        camera = new Pinhole(new Point3D(0, 2, 5), new Point3D(0, 0, 0), 1);
+        this.vp = new ViewPlane(1000, 1000, 1, 1.0f, new MultiJittered(25, 83));
+        this.backgroundColor = RGBColor.BLACK;
+        this.tracer = new RayCast(this);
+        
+        Ambient ambient = new Ambient();
+        ambient.setRadiance(0.5f);
+        this.ambient = ambient; //set it to world.
+        
+        Pinhole pinhole = new Pinhole(new Point3D(0, 0, 500), new Point3D(-5, 0, 0), 850.0f);
+        pinhole.setZoom(4);
+        pinhole.roll(20);
+        this.camera = pinhole;
 
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         //////////////////////////////// ADD THE OBJECTS ////////////////////////////////
-        Sphere sa = new Sphere(new Matte(0.01f, 0.7f, RGBColor.RED), new Point3D(0, 0, 0), 3);
-        objects.add(sa);
+//        Matte matte_1 = new Matte();
+//        matte_1.setKa(0.25f);
+//        matte_1.setKd(0.65f);
+//        matte_1.setColor(new RGBColor(1.0f, 1.0f, 0.0f));
+        Phong phong_1 = new Phong();
+        phong_1.setKa(0.1f); 
+        phong_1.setKd(0.05f); 
+        phong_1.setKs(0.2f); 
+        phong_1.setExp(300); 
+        phong_1.setColor(new RGBColor(1.0f, 1.0f, 0.2f));
+        Sphere sphere_1 = new Sphere(phong_1, new Point3D(10, -5, 0), 27);
+        this.objects.add(sphere_1);
 
-        Sphere sb = new Sphere(new Matte(0.01f, 1f, RGBColor.GREEN), new Point3D(0, 2, 0.5), 2);
-        objects.add(sb);
-
-        Plane p = new Plane(new Matte(0.01f, 1f, RGBColor.BLUE), new Point3D(0, -10, 0), new Normal(0, 1, 0));
-        objects.add(p);
+        Matte matte_2 = new Matte();
+        matte_2.setKa(0.15f);
+        matte_2.setKd(0.85f);
+        matte_2.setColor(new RGBColor(0.71f, 0.40f, 0.16f));
+        Sphere sphere_2 = new Sphere(matte_2, new Point3D(-25, 10, -35), 27);
+        this.objects.add(sphere_2);
+        
+        Matte matte_3 = new Matte();
+        matte_3.setKa(0.05f);
+        matte_3.setKd(0.15f);
+        matte_3.setColor(new RGBColor(0.0f, 0.4f, 0.2f));
+        Plane plane_3 = new Plane(matte_3, new Point3D(0, 0, -50), new Normal(0, 0, 1));
+        this.objects.add(plane_3);
 
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
-        PointLight pl = new PointLight(new Point3D(10, 10, 10));
-        pl.setLs(3);
-        lights.add(pl);
+        
+        PointLight pointLight = new PointLight(new Point3D(100, 50, 150));
+        pointLight.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
+        pointLight.setIntensity(3.0f);
+        this.lights.add(pointLight);
     }
 
     public ShadeRec hitObjects(Ray r) {

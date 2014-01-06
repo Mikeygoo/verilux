@@ -1,4 +1,4 @@
-package brdf;
+package material.brdf;
 
 import constant.Constants;
 import sampler.Sampler;

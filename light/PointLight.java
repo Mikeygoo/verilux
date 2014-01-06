@@ -47,11 +47,7 @@ public class PointLight extends Light {
         this.color = color;
     }
 
-    public float getLs() {
-        return ls;
-    }
-
-    public void setLs(float ls) {
+    public void setIntensity(float ls) {
         this.ls = ls;
     }
 
