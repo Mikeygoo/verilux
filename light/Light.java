@@ -2,6 +2,7 @@ package light;
 
 import tracer.ShadeRec;
 import util.RGBColor;
+import util.Ray;
 import util.Vector3D;
 
 /**
@@ -12,7 +13,7 @@ public abstract class Light {
     protected boolean shadows;
 
     public Light() {
-        this(false);
+        this(true);
     }
 
     public Light(boolean shadows) {
@@ -22,4 +23,14 @@ public abstract class Light {
     public abstract Vector3D getDirection(ShadeRec sr);
 
     public abstract RGBColor L(ShadeRec sr);
+    
+    public abstract boolean inShadow(Ray r, ShadeRec sr);
+
+    public boolean castsShadows() {
+        return shadows;
+    }
+
+    public void setShadows(boolean shadows) {
+        this.shadows = shadows;
+    }
 }

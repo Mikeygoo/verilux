@@ -74,7 +74,7 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
-        this.vp = new ViewPlane(1000, 1000, 1, 1.0f, new MultiJittered(25, 83));
+        this.vp = new ViewPlane(1000, 1000, 1, 1.2f, new MultiJittered(25, 83));
         this.backgroundColor = RGBColor.BLACK;
         this.tracer = new RayCast(this);
         
@@ -96,7 +96,7 @@ public class World {
 //        matte_1.setColor(new RGBColor(1.0f, 1.0f, 0.0f));
         Phong phong_1 = new Phong();
         phong_1.setKa(0.1f); 
-        phong_1.setKd(0.05f); 
+        phong_1.setKd(0.45f); 
         phong_1.setKs(0.2f); 
         phong_1.setExp(300); 
         phong_1.setColor(new RGBColor(1.0f, 1.0f, 0.2f));
@@ -122,7 +122,7 @@ public class World {
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
         
         PointLight pointLight = new PointLight(new Point3D(100, 50, 150));
-        pointLight.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
+        //pointLight.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
         pointLight.setIntensity(3.0f);
         this.lights.add(pointLight);
     }
@@ -193,5 +193,9 @@ public class World {
 
     public Iterable<Light> getLights() {
         return lights;
+    }
+
+    public Iterable<GeometricObject> getObjects() {
+        return objects;
     }
 }

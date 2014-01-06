@@ -2,6 +2,7 @@ package light;
 
 import tracer.ShadeRec;
 import util.RGBColor;
+import util.Ray;
 import util.Vector3D;
 
 /**
@@ -34,6 +35,11 @@ public class Ambient extends Light {
     @Override
     public RGBColor L(ShadeRec sr) {
         return color.scale(ls);
+    }
+
+    @Override
+    public boolean inShadow(Ray r, ShadeRec sr) {
+        return false;
     }
 
     public RGBColor getColor() {

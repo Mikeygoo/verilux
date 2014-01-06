@@ -73,4 +73,35 @@ public class Sphere extends GeometricObject {
 
         return Double.POSITIVE_INFINITY;
     }
+    
+    @Override
+    public double hitShadow(Ray r) {
+        double t;
+        Vector3D temp = r.o.subtract(center);
+        double a = r.d.dot(r.d);
+        double b = 2.0 * temp.dot(r.d);
+        double c = temp.dot(temp) - radius * radius;
+        double disc = b * b - 4.0 * a * c;
+
+        if (disc < 0.0)
+            return Double.POSITIVE_INFINITY;
+        else {
+            double e = Math.sqrt(disc);
+            double denom = 2.0 * a;
+
+            t = (-b - e) / denom;
+
+            if (t > K_EPSILON) {
+                return t;
+            }
+
+            t = (-b + e) / denom;
+
+            if (t > K_EPSILON) {
+                return t;
+            }
+        }
+
+        return Double.POSITIVE_INFINITY;
+    }
 }

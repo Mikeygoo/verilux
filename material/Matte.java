@@ -5,6 +5,7 @@ import light.Light;
 import object.World;
 import tracer.ShadeRec;
 import util.RGBColor;
+import util.Ray;
 import util.Vector3D;
 
 /**
@@ -57,8 +58,18 @@ public class Matte extends Material {
             Vector3D wi = l.getDirection(sr);
             double ndotwi = sr.normal.dot(wi);
 
-            if (ndotwi > 0.0)
-                L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).scale((float) ndotwi));
+            if (ndotwi > 0.0) {
+                boolean inShadow = false;
+                
+                if (l.castsShadows()) {
+                    Ray shadowRay = new Ray(sr.hitPoint, wi);
+                    inShadow = l.inShadow(shadowRay, sr);
+                }
+                
+                if (!inShadow) { 
+                    L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).scale((float) ndotwi));
+                }
+            }
         }
 
         return L;

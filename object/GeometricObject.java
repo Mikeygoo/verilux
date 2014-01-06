@@ -29,4 +29,6 @@ public abstract class GeometricObject {
     }
 
     public abstract double hit(Ray r, ShadeRec sr);
+
+    public abstract double hitShadow(Ray r);
 }

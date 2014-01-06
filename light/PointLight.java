@@ -1,8 +1,10 @@
 package light;
 
+import object.GeometricObject;
 import tracer.ShadeRec;
 import util.Point3D;
 import util.RGBColor;
+import util.Ray;
 import util.Vector3D;
 
 /**
@@ -37,6 +39,18 @@ public class PointLight extends Light {
     @Override
     public RGBColor L(ShadeRec sr) {
         return color.scale(ls);
+    }
+
+    @Override
+    public boolean inShadow(Ray r, ShadeRec sr) {
+        double d = location.distance(r.o);
+        
+        for (GeometricObject go : sr.world.getObjects()) {
+            if (go.hitShadow(r) < d)
+                return true;
+        }
+        
+        return false;
     }
 
     public RGBColor getColor() {

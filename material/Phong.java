@@ -5,6 +5,7 @@ import material.brdf.GlossySpecular;
 import material.brdf.Lambertian;
 import tracer.ShadeRec;
 import util.RGBColor;
+import util.Ray;
 import util.Vector3D;
 
 /**
@@ -78,8 +79,17 @@ public class Phong extends Material {
             double ndotwi = sr.normal.dot(wi);
 
             if (ndotwi > 0.0) {
-                RGBColor total = diffuseBRDF.f(sr, wi, wo).add(specularBRDF.f(sr, wi, wo));
-                L.addTo(total.colorProduct(l.L(sr)).scale((float) ndotwi)); //diffuse part
+                boolean inShadow = false;
+                
+                if (l.castsShadows()) {
+                    Ray shadowRay = new Ray(sr.hitPoint, wi);
+                    inShadow = l.inShadow(shadowRay, sr);
+                }
+                
+                if (!inShadow) { 
+                    RGBColor total = diffuseBRDF.f(sr, wi, wo).add(specularBRDF.f(sr, wi, wo));
+                    L.addTo(total.colorProduct(l.L(sr)).scale((float) ndotwi)); //diffuse part
+                }
             }
         }
 

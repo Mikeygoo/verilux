@@ -49,4 +49,14 @@ public class Plane extends GeometricObject {
         } else
             return Double.POSITIVE_INFINITY;
     }
+    
+    @Override
+    public double hitShadow(Ray r) {
+        double t = (point.subtract(r.o)).dot(normal) / r.d.dot(normal);
+
+        if (t > K_EPSILON) {
+            return t;
+        } else
+            return Double.POSITIVE_INFINITY;
+    }
 }
