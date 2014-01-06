@@ -10,13 +10,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import light.Ambient;
+import light.DirectionalLight;
 import light.Light;
-import light.PointLight;
 import material.Matte;
 import material.Phong;
 import sampler.MultiJittered;
-import sampler.PureRandom;
-import sampler.Regular;
 import tracer.RayCast;
 import tracer.ShadeRec;
 import tracer.Tracer;
@@ -24,6 +22,7 @@ import util.Normal;
 import util.Point3D;
 import util.RGBColor;
 import util.Ray;
+import util.Vector3D;
 
 /**
  *
@@ -82,9 +81,9 @@ public class World {
         ambient.setRadiance(0.5f);
         this.ambient = ambient; //set it to world.
         
-        Pinhole pinhole = new Pinhole(new Point3D(0, 0, 500), new Point3D(-5, 0, 0), 850.0f);
+        Pinhole pinhole = new Pinhole(new Point3D(0, 500, 500), new Point3D(-5, 0, 0), 850.0f);
         pinhole.setZoom(4);
-        pinhole.roll(20);
+        //pinhole.roll(20);
         this.camera = pinhole;
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -114,17 +113,22 @@ public class World {
         matte_3.setKa(0.05f);
         matte_3.setKd(0.15f);
         matte_3.setColor(new RGBColor(0.0f, 0.4f, 0.2f));
-        Plane plane_3 = new Plane(matte_3, new Point3D(0, 0, -50), new Normal(0, 0, 1));
+        Plane plane_3 = new Plane(matte_3, new Point3D(0, -50, 0), new Normal(0, 1, 0));
         this.objects.add(plane_3);
 
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
         
-        PointLight pointLight = new PointLight(new Point3D(100, 50, 150));
+        //PointLight pointLight = new PointLight(new Point3D(100, 50, 150));
         //pointLight.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
-        pointLight.setIntensity(3.0f);
-        this.lights.add(pointLight);
+        //pointLight.setIntensity(3.0f);
+        //this.lights.add(pointLight);
+        
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3D(0, 1, 0));
+        //directionalLight.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
+        directionalLight.setIntensity(3.0f);
+        this.lights.add(directionalLight);
     }
 
     public ShadeRec hitObjects(Ray r) {
