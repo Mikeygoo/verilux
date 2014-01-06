@@ -3,6 +3,7 @@ package object;
 import camera.Buffer;
 import camera.BufferedImageWrappingBuffer;
 import camera.Camera;
+import camera.IndependentBuffer;
 import camera.Pinhole;
 import constant.Constants;
 import java.awt.Graphics;
@@ -19,6 +20,7 @@ import light.JitteredPointLight;
 import light.Light;
 import material.Matte;
 import material.Phong;
+import sampler.MultiJittered;
 import sampler.Regular;
 import tracer.RayCast;
 import tracer.ShadeRec;
@@ -33,7 +35,7 @@ import util.Ray;
  * @author michael
  */
 public class World {
-    public static void main(String[] args) throws IOException {
+    public static void mainOld(String[] args) throws IOException {
         World w = new World();
 
         final BufferedImage bi = new BufferedImage(Constants.WIDTH, Constants.HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -69,6 +71,22 @@ public class World {
         ImageIO.write(bi, "png", new File("outfile.png")); //save image
         System.out.println("Image saved as outfile.png");
     }
+    
+    public static void main(String[] args) {
+        World w = new World();
+        IndependentBuffer buffer = new IndependentBuffer(Constants.WIDTH, Constants.HEIGHT);
+        
+        System.out.println("Beginning render.");
+        long millis = System.currentTimeMillis();
+        w.renderScene(buffer);
+        System.out.println("Done!\nIt took " + (System.currentTimeMillis() - millis) + " milliseconds to render.");
+        
+        System.out.println("Beginning write.");
+        buffer.writeToFile("image.ppm");
+        System.out.println("Done writing.");
+        System.out.flush();
+        System.exit(0);
+    }
 
     private ViewPlane vp;
     private RGBColor backgroundColor;
@@ -92,7 +110,7 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
-        this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1.5f, new Regular(Constants.SAMPLES, 83));
+        this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1.5f, new MultiJittered(Constants.SAMPLES, 83));
         this.backgroundColor = RGBColor.BLACK;
         this.tracer = new RayCast(this);
         
