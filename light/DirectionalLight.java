@@ -55,7 +55,7 @@ public class DirectionalLight extends Light {
         this.color = color;
     }
 
-    public void setIntensity(float ls) {
+    public void setRadiance(float ls) {
         this.ls = ls;
     }
 

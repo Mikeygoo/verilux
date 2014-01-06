@@ -1,7 +1,6 @@
 package camera;
 
 import constant.Constants;
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorCompletionService;
@@ -43,21 +42,24 @@ public abstract class Camera {
         v = w.cross(u);
     }
 
-    public void renderScene(final World world, final BufferedImage img) {
+    public void renderScene(final World world, final Buffer img) {
         final ViewPlane vp = world.getViewPlane();
-        final int slicesVertical = 2, slicesHorizontal = 4;
         ExecutorCompletionService workers = new ExecutorCompletionService(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
 
         Queue<Future<Object>> futures = new LinkedList<Future<Object>>();
 
-        for (int i = 0; i < slicesHorizontal; i++) {
-            for (int j = 0; j < slicesVertical; j++) {
+        for (int i = 0; i < Constants.slicesHorizontal; i++) {
+            for (int j = 0; j < Constants.slicesVertical; j++) {
                 final int fi = i, fj = j;
                 Future<Object> f = workers.submit(new Runnable() {
                     @Override
                     public void run() {
-                        renderSceneSlice(world, img, (int)(vp.getVres() * 1.0 / slicesVertical * fj), (int)(vp.getVres() * 1.0 / slicesVertical * (fj + 1)),
-                                         (int)(vp.getHres() * 1.0 / slicesHorizontal * fi), (int)(vp.getHres() * 1.0 / slicesHorizontal * (fi + 1)));
+                        try {
+                            renderSceneSlice(world, img, (int)(vp.getVres() * 1.0 / Constants.slicesVertical * fj), (int)(vp.getVres() * 1.0 / Constants.slicesVertical * (fj + 1)),
+                                             (int)(vp.getHres() * 1.0 / Constants.slicesHorizontal * fi), (int)(vp.getHres() * 1.0 / Constants.slicesHorizontal * (fi + 1)));
+                        } catch (Throwable t) {
+                            t.printStackTrace();
+                        }
                     }
                 }, new Object());
                 futures.offer(f);
@@ -70,7 +72,7 @@ public abstract class Camera {
         }
     }
 
-    public abstract void renderSceneSlice(World world, BufferedImage img, int lr, int hr, int lc, int hc);
+    public abstract void renderSceneSlice(World world, Buffer img, int lr, int hr, int lc, int hc);
 
     public Point3D getEye() {
         return eye;

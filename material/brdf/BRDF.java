@@ -1,6 +1,5 @@
 package material.brdf;
 
-import sampler.MultiJittered;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.RGBColor;
@@ -14,7 +13,7 @@ public abstract class BRDF {
     private Sampler sampler;
 
     public BRDF() {
-        this(new MultiJittered(25, 83));
+        this(null);
     }
 
     public BRDF(Sampler sampler) {

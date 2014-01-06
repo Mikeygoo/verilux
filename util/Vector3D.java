@@ -29,6 +29,12 @@ public class Vector3D {
         this(0, 0, 0);
     }
 
+    public void setTo(Vector3D v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
     public Vector3D negate() {
         return new Vector3D(-x, -y, -z);
     }
