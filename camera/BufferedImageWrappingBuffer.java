@@ -16,7 +16,8 @@ public class BufferedImageWrappingBuffer extends Buffer {
 
     @Override
     void drawColor(int x, int y, RGBColor c) {
-        int[] ints = {(int) (c.r * 256), (int) (c.g * 256), (int) (c.b * 256)};
+        c.clampNormally();
+        int[] ints = {(int) (c.r * 255), (int) (c.g * 255), (int) (c.b * 255)};
         bi.getRaster().setPixel(x, y, ints);
     }
 }

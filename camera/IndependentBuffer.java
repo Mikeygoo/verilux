@@ -45,4 +45,16 @@ public class IndependentBuffer extends Buffer {
         ps.flush();
         ps.close();
     }
+
+    public RGBColor get(int x, int y) {
+        return buffer[x][y];
+    }
+
+    public void populateBlack() {
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                buffer[x][y] = new RGBColor(0);
+            }
+        }
+    }
 }

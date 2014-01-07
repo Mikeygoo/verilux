@@ -2,7 +2,7 @@ package light;
 
 import constant.Constants;
 import object.GeometricObject;
-import sampler.MultiJittered;
+import sampler.*;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.Point3D;
@@ -15,12 +15,7 @@ import util.Vector3D;
  * @author michael
  */
 public class AmbientOccluder extends Light {
-    private ThreadLocal<Sampler.SamplerKey> sk = new ThreadLocal<Sampler.SamplerKey>() {
-        @Override
-        protected Sampler.SamplerKey initialValue() {
-            return new Sampler.SamplerKey();
-        }
-    };
+    Sampler.SamplerKey sk = new Sampler.SamplerKey();
     private Sampler s;
     
     private float minAmount = 0.005f;
@@ -32,7 +27,7 @@ public class AmbientOccluder extends Light {
     }
 
     public AmbientOccluder(float ls, RGBColor color) {
-        this(ls, color, new MultiJittered(Constants.SAMPLES, 83, 1));
+        this(ls, color, new PureRandom(Constants.SAMPLES, 83, 1));
     }
 
     public AmbientOccluder(float ls, RGBColor color, Sampler s) {
@@ -50,13 +45,12 @@ public class AmbientOccluder extends Light {
     @Override
     public RGBColor L(ShadeRec sr) {
         Vector3D w = new Vector3D(sr.normal);
-        Vector3D v = w.cross(new Vector3D(0.0072, 1.0, 0.0034));
+        Vector3D v = w.cross(new Vector3D(0.0002, 1.0, 0.0004));
         v.normalizeTo();
         Vector3D u = v.cross(w);
         u.normalizeTo();
         
-        
-        Point3D sp = s.sampleUnitHemisphere(sk.get());
+        Point3D sp = s.sampleUnitHemisphere(sk);
         Vector3D dir = new Vector3D(0);
         dir.addTo(u.scale(sp.x));
         dir.addTo(v.scale(sp.y));

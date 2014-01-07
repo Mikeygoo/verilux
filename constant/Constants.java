@@ -20,10 +20,10 @@ public class Constants {
     
     ///
     
-    public static final int SAMPLES = 25 * 25;
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
-    public static final float ZOOM_FACTOR = 2.0f;
-    public static final int slicesVertical = 16;
-    public static final int slicesHorizontal = 4;
+    public static final int SAMPLES = 10000;
+    public static final int WIDTH = 250;
+    public static final int HEIGHT = 250;
+    public static final float ZOOM_FACTOR = 1.0f;
+    public static final int slicesVertical = 1;
+    public static final int slicesHorizontal = 1;
 }
