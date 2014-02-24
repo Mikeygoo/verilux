@@ -1,5 +1,6 @@
 package camera;
 
+import constant.Constants;
 import object.ViewPlane;
 import object.World;
 import sampler.Sampler;
@@ -31,42 +32,26 @@ public class Pinhole extends Camera {
         ViewPlane vp = world.getViewPlane();
         double s = vp.getS() / zoom;
         
-        IndependentBuffer renderBuffer = new IndependentBuffer(hc - lc, hr - lr);
-        renderBuffer.populateBlack();
-        
         Sampler.SamplerKey sk = new Sampler.SamplerKey();
-                    
-        for (int smp = 0; smp < vp.getNumSamples(); smp++) {
-            int pixD = 0;
-            for (int r = lr; r < hr; r++) {
-                for (int c = lc; c < hc; c++) {
-                    RGBColor L = renderBuffer.get(c - lc, r - lr).scale(smp - 1);
-                    Ray ray = new Ray();
-                    ray.o = eye;
+        for (int r = lr; r < hr; r++) {
+            for (int c = lc; c < hc; c++) {
+                Ray ray = new Ray();
+                ray.o = eye;
 
+                RGBColor Lp = new RGBColor(0);
+                for (int smp = 0; smp < vp.getNumSamples(); smp++) {
                     Point2D pp = new Point2D(0), sp = vp.getSampler().sampleUnitSquare(sk);
                     pp.x = s * (c - 0.5 * vp.getHres() + sp.x);
                     pp.y = s * (r - 0.5 * vp.getVres() + sp.y);
                     ray.d = getRayDirection(pp);
-                    L.addTo(world.getTracer().traceRay(ray));
-
-                    L.powTo(1.0f / vp.getGamma());
-                    L.scaleTo(1.0f / smp);
-
-                    RGBColor oldL = renderBuffer.get(c - lc, r - lr);
-                    if (!oldL.equivalent(L))
-                        pixD++;
-                    renderBuffer.drawColor(c - lc, r - lr, L);
-                    img.drawColor(c, vp.getVres() - r - 1, L);
+                    Lp.addTo(world.getTracer().traceRay(ray));
                 }
-            }
-            
-            if (pixD != (hc - lc) * (hr - lr)) {
-                System.out.println("For SMP = " + smp + ", " + pixD + " pixels were affected.");
-                if (pixD == 0) {
-                    System.out.println("Chopped off at "+ smp);
-                    break;
-                }
+
+                Lp.scaleTo(1.0f / vp.getNumSamples());
+                Lp.powTo(1.0f / vp.getGamma());
+                Lp.clampNormally();
+
+                img.drawColor(c, r, Lp);
             }
         }
     }

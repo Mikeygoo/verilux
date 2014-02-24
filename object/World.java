@@ -15,7 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import light.Ambient;
 import light.AmbientOccluder;
+import light.DirectionalLight;
 import light.JitteredPointLight;
 import light.Light;
 import material.Matte;
@@ -30,6 +32,7 @@ import util.Normal;
 import util.Point3D;
 import util.RGBColor;
 import util.Ray;
+import util.Vector3D;
 
 /**
  *
@@ -111,16 +114,16 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
-        this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1f, new PureRandom(Constants.SAMPLES, 83));
-        this.backgroundColor = RGBColor.BLACK;
+        this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1f, new MultiJittered(Constants.SAMPLES, 83));
+        this.backgroundColor = new RGBColor(0.8f);
         this.tracer = new RayCast(this);
         
         AmbientOccluder ambient = new AmbientOccluder();
         //Ambient ambient = new Ambient();
-        ambient.setRadiance(2f);
+        ambient.setRadiance(5f);
         this.ambient = ambient; //set it to world.
         
-        Pinhole pinhole = new Pinhole(new Point3D(-500, 50, 50), new Point3D(-5, 0, 0), 850.0f);
+        Pinhole pinhole = new Pinhole(new Point3D(-500, 200, 50), new Point3D(-5, 0, 0), 850.0f);
         pinhole.setZoom(Constants.ZOOM_FACTOR);
         //pinhole.roll(20);
         this.camera = pinhole;
@@ -136,22 +139,22 @@ public class World {
         phong_1.setKa(0.1f); 
         phong_1.setKd(0.25f); 
         phong_1.setKs(0.5f); 
-        phong_1.setExp(300); 
-        phong_1.setColor(new RGBColor(0.9f, 0.9f, 0.9f));
+        phong_1.setExp(30); 
+        phong_1.setColor(new RGBColor(0.0f, 0.9f, 0.9f));
         Sphere sphere_1 = new Sphere(phong_1, new Point3D(10, -5, 0), 27);
         this.objects.add(sphere_1);
 
         Matte matte_2 = new Matte();
         matte_2.setKa(0.15f);
         matte_2.setKd(0.85f);
-        matte_2.setColor(new RGBColor(0.75f, 0.75f, 0.75f));
+        matte_2.setColor(new RGBColor(0.75f, 0.75f, 0.00f));
         Sphere sphere_2 = new Sphere(matte_2, new Point3D(-25, 10, -35), 27);
         this.objects.add(sphere_2);
         
         Matte matte_3 = new Matte();
         matte_3.setKa(0.05f);
         matte_3.setKd(0.15f);
-        matte_3.setColor(new RGBColor(0.5f, 0.5f, 0.5f));
+        matte_3.setColor(new RGBColor(0.5f, 0.0f, 0.5f));
         Plane plane_3 = new Plane(matte_3, new Point3D(0, -32, 0), new Normal(0, 1, 0));
         this.objects.add(plane_3);
 
@@ -160,15 +163,15 @@ public class World {
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
         
         JitteredPointLight pointLight = new JitteredPointLight(new Point3D(100, 50, 150));
-        pointLight.setColor(new RGBColor(0.9f, 0.05f, 0.05f));
-        pointLight.setLightRadius(50.0f);
+        pointLight.setColor(new RGBColor(0.9f, 0.15f, 0.15f));
+        pointLight.setLightRadius(5.0f);
         pointLight.setRadiance(10f);
-        this.lights.add(pointLight);
+        //this.lights.add(pointLight);
         
-        JitteredPointLight pointLight_2 = new JitteredPointLight(new Point3D(-100, 50, -150));
-        pointLight_2.setColor(new RGBColor(0.05f, 0.05f, 0.9f));
+        JitteredPointLight pointLight_2 = new JitteredPointLight(new Point3D(0, 500, 0));
+        pointLight_2.setColor(new RGBColor(1f, 1f, 1f));
         pointLight_2.setLightRadius(50.0f);
-        pointLight_2.setRadiance(10f);
+        pointLight_2.setRadiance(3f);
         this.lights.add(pointLight_2);
     }
 
@@ -182,7 +185,6 @@ public class World {
             double t;
 
             if ((t = g.hit(r, sr)) < tmin) {
-                //System.out.println("Boom at "+sr.localHitPoint);
                 sr.hitAnObject = true;
                 tmin = t;
                 sr.material = g.getMaterial();
