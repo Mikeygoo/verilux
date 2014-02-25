@@ -72,9 +72,9 @@ public class RGBColor {
     }
 
     public boolean equivalent(RGBColor c) {
-        int rp = (int) (255 * r), gp = (int) (255 * g), bp = (int) (255 * b);
-        int crp = (int) (255 * c.r), cgp = (int) (255 * c.g), cbp = (int) (255 * c.b);
-        
+        int rp = (int)(255 * r), gp = (int)(255 * g), bp = (int)(255 * b);
+        int crp = (int)(255 * c.r), cgp = (int)(255 * c.g), cbp = (int)(255 * c.b);
+
         return rp == crp && gp == cgp && bp == cbp;
     }
 }

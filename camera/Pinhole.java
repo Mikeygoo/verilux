@@ -31,14 +31,16 @@ public class Pinhole extends Camera {
     public void renderSceneSlice(World world, Buffer img, int lr, int hr, int lc, int hc) {
         ViewPlane vp = world.getViewPlane();
         double s = vp.getS() / zoom;
-        
+
         Sampler.SamplerKey sk = new Sampler.SamplerKey();
+
         for (int r = lr; r < hr; r++) {
             for (int c = lc; c < hc; c++) {
                 Ray ray = new Ray();
                 ray.o = eye;
 
                 RGBColor Lp = new RGBColor(0);
+
                 for (int smp = 0; smp < vp.getNumSamples(); smp++) {
                     Point2D pp = new Point2D(0), sp = vp.getSampler().sampleUnitSquare(sk);
                     pp.x = s * (c - 0.5 * vp.getHres() + sp.x);

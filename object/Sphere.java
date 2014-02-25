@@ -73,7 +73,7 @@ public class Sphere extends GeometricObject {
 
         return Double.POSITIVE_INFINITY;
     }
-    
+
     @Override
     public double hitShadow(Ray r) {
         double t;

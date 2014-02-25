@@ -27,21 +27,24 @@ public class IndependentBuffer extends Buffer {
 
     public void writeToFile(String imgname) {
         PrintStream ps = null;
+
         try {
             ps = new PrintStream(imgname);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(IndependentBuffer.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        
+
         ps.printf("P3\n%d %d\n16383\n", w, h);
+
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-                ps.printf("%d %d %d   ", (int) (buffer[x][y].r * 16383), (int) (buffer[x][y].g * 16383), (int) (buffer[x][y].b * 16383));
+                ps.printf("%d %d %d   ", (int)(buffer[x][y].r * 16383), (int)(buffer[x][y].g * 16383), (int)(buffer[x][y].b * 16383));
             }
+
             ps.println();
         }
-        
+
         ps.flush();
         ps.close();
     }

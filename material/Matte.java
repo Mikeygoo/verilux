@@ -60,13 +60,13 @@ public class Matte extends Material {
 
             if (ndotwi > 0.0) {
                 boolean inShadow = false;
-                
+
                 if (l.castsShadows()) {
                     Ray shadowRay = new Ray(sr.hitPoint, wi);
                     inShadow = l.inShadow(shadowRay, sr);
                 }
-                
-                if (!inShadow) { 
+
+                if (!inShadow) {
                     L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).scale((float) ndotwi));
                 }
             }

@@ -23,7 +23,7 @@ public abstract class Light {
     public abstract Vector3D getDirection(ShadeRec sr);
 
     public abstract RGBColor L(ShadeRec sr);
-    
+
     public abstract boolean inShadow(Ray r, ShadeRec sr);
 
     public boolean castsShadows() {

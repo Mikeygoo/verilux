@@ -17,7 +17,7 @@ import util.Vector3D;
 public class AmbientOccluder extends Light {
     Sampler.SamplerKey sk = new Sampler.SamplerKey();
     private Sampler s;
-    
+
     private float minAmount = 0.005f;
     private float ls;
     RGBColor color;
@@ -36,7 +36,7 @@ public class AmbientOccluder extends Light {
         this.ls = ls;
         this.color = color;
     }
-    
+
     @Override
     public Vector3D getDirection(ShadeRec sr) {
         return new Vector3D(0);
@@ -49,7 +49,7 @@ public class AmbientOccluder extends Light {
         v.normalizeTo();
         Vector3D u = v.cross(w);
         u.normalizeTo();
-        
+
         Point3D sp = s.sampleUnitHemisphere(sk);
         Vector3D dir = new Vector3D(0);
         dir.addTo(u.scale(sp.x));
@@ -71,7 +71,7 @@ public class AmbientOccluder extends Light {
             if (go.hitShadow(r) < Double.MAX_VALUE)
                 return true;
         }
-        
+
         return false;
     }
 

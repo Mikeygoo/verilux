@@ -17,9 +17,9 @@ public class Constants {
 
     public static final long SEED = 23_013_800_210L;
     public static final long LARGE_PRIME = 151_703L;
-    
+
     ///
-    public static final int SAMPLES = 2500;
+    public static final int SAMPLES = 6400;
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
     public static final float ZOOM_FACTOR = 2.0f;

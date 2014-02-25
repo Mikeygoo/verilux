@@ -44,12 +44,12 @@ public class PointLight extends Light {
     @Override
     public boolean inShadow(Ray r, ShadeRec sr) {
         double d = location.distance(r.o);
-        
+
         for (GeometricObject go : sr.world.getObjects()) {
             if (go.hitShadow(r) < d)
                 return true;
         }
-        
+
         return false;
     }
 

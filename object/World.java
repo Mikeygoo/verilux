@@ -15,16 +15,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import light.Ambient;
 import light.AmbientOccluder;
-import light.DirectionalLight;
 import light.JitteredPointLight;
 import light.Light;
 import material.Matte;
 import material.Phong;
 import sampler.MultiJittered;
-import sampler.PureRandom;
-import sampler.Regular;
 import tracer.RayCast;
 import tracer.ShadeRec;
 import tracer.Tracer;
@@ -32,7 +28,6 @@ import util.Normal;
 import util.Point3D;
 import util.RGBColor;
 import util.Ray;
-import util.Vector3D;
 
 /**
  *
@@ -53,7 +48,7 @@ public class World {
 
         jf.setSize(1000, 1000);
         jf.setVisible(true);
-        
+
         new Thread() {
             @Override
             public void run() {
@@ -63,28 +58,29 @@ public class World {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                     jf.repaint();
                 }
             }
-        }.start();
-        
+        } .start();
+
         long millis = System.currentTimeMillis();
         w.renderScene(new BufferedImageWrappingBuffer(bi));
         System.out.println("It took " + (System.currentTimeMillis() - millis) + " milliseconds to render.");
-        
+
         ImageIO.write(bi, "png", new File("outfile.png")); //save image
         System.out.println("Image saved as outfile.png");
     }
-    
+
     public static void mainOld(String[] args) {
         World w = new World();
         IndependentBuffer buffer = new IndependentBuffer(Constants.WIDTH, Constants.HEIGHT);
-        
+
         System.out.println("Beginning render.");
         long millis = System.currentTimeMillis();
         w.renderScene(buffer);
         System.out.println("Done!\nIt took " + (System.currentTimeMillis() - millis) + " milliseconds to render.");
-        
+
         System.out.println("Beginning write.");
         buffer.writeToFile("image.ppm");
         System.out.println("Done writing.");
@@ -117,12 +113,12 @@ public class World {
         this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1f, new MultiJittered(Constants.SAMPLES, 83));
         this.backgroundColor = new RGBColor(0.8f);
         this.tracer = new RayCast(this);
-        
+
         AmbientOccluder ambient = new AmbientOccluder();
         //Ambient ambient = new Ambient();
         ambient.setRadiance(5f);
         this.ambient = ambient; //set it to world.
-        
+
         Pinhole pinhole = new Pinhole(new Point3D(-500, 200, 50), new Point3D(-5, 0, 0), 850.0f);
         pinhole.setZoom(Constants.ZOOM_FACTOR);
         //pinhole.roll(20);
@@ -136,10 +132,10 @@ public class World {
 //        matte_1.setKd(0.65f);
 //        matte_1.setColor(new RGBColor(1.0f, 1.0f, 0.0f));
         Phong phong_1 = new Phong();
-        phong_1.setKa(0.1f); 
-        phong_1.setKd(0.25f); 
-        phong_1.setKs(0.5f); 
-        phong_1.setExp(30); 
+        phong_1.setKa(0.1f);
+        phong_1.setKd(0.25f);
+        phong_1.setKs(0.5f);
+        phong_1.setExp(30);
         phong_1.setColor(new RGBColor(0.0f, 0.9f, 0.9f));
         Sphere sphere_1 = new Sphere(phong_1, new Point3D(10, -5, 0), 27);
         this.objects.add(sphere_1);
@@ -150,7 +146,7 @@ public class World {
         matte_2.setColor(new RGBColor(0.75f, 0.75f, 0.00f));
         Sphere sphere_2 = new Sphere(matte_2, new Point3D(-25, 10, -35), 27);
         this.objects.add(sphere_2);
-        
+
         Matte matte_3 = new Matte();
         matte_3.setKa(0.05f);
         matte_3.setKd(0.15f);
@@ -161,13 +157,13 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
-        
+
         JitteredPointLight pointLight = new JitteredPointLight(new Point3D(100, 50, 150));
         pointLight.setColor(new RGBColor(0.9f, 0.15f, 0.15f));
         pointLight.setLightRadius(5.0f);
         pointLight.setRadiance(10f);
         //this.lights.add(pointLight);
-        
+
         JitteredPointLight pointLight_2 = new JitteredPointLight(new Point3D(0, 500, 0));
         pointLight_2.setColor(new RGBColor(1f, 1f, 1f));
         pointLight_2.setLightRadius(50.0f);

@@ -33,10 +33,10 @@ public class GlossySpecular extends BRDF {
         double ndotwi = sr.normal.dot(wi);
         Vector3D r = wi.negate().add(sr.normal.scale(2 * ndotwi));
         double rdotwo = r.dot(wo);
-        
+
         if (rdotwo > 0.0)
-            L = cs.scale((float) (ks * Math.pow(rdotwo, exp)));
-        
+            L = cs.scale((float)(ks * Math.pow(rdotwo, exp)));
+
         return L;
     }
 
@@ -49,7 +49,7 @@ public class GlossySpecular extends BRDF {
     public RGBColor rho(ShadeRec sr, Vector3D wo) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     public RGBColor getColor() {
         return cs;
     }

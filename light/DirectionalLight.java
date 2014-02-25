@@ -31,7 +31,7 @@ public class DirectionalLight extends Light {
         this.direction = direction;
         direction.normalizeTo();
     }
-    
+
     @Override
     public RGBColor L(ShadeRec sr) {
         return color.scale(ls);
@@ -43,10 +43,10 @@ public class DirectionalLight extends Light {
             if (go.hitShadow(r) < Double.MAX_VALUE)
                 return true;
         }
-        
+
         return false;
     }
-    
+
     public RGBColor getColor() {
         return color;
     }

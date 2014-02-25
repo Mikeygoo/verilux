@@ -19,7 +19,7 @@ public class Phong extends Material {
     public Phong() {
         this(1, 1, 1, 1, RGBColor.WHITE);
     }
-    
+
     public Phong(float ka, float kd, float ks, float exp, RGBColor color) {
         ambientBRDF = new Lambertian(ka, color);
         diffuseBRDF = new Lambertian(kd, color);
@@ -41,19 +41,19 @@ public class Phong extends Material {
     public void setKd(float f) {
         diffuseBRDF.setIntensity(f);
     }
-    
+
     public float getKs() {
         return specularBRDF.getIntensity();
     }
-    
+
     public void setKs(float f) {
         specularBRDF.setIntensity(f);
     }
-    
+
     public float getExp() {
         return specularBRDF.getExp();
     }
-    
+
     public void setExp(float f) {
         specularBRDF.setExp(f);
     }
@@ -67,7 +67,7 @@ public class Phong extends Material {
         diffuseBRDF.setColor(color);
         specularBRDF.setColor(color);
     }
-    
+
     @Override
     public RGBColor shade(ShadeRec sr) {
         Vector3D wo = sr.ray.d.negate();
@@ -80,13 +80,13 @@ public class Phong extends Material {
 
             if (ndotwi > 0.0) {
                 boolean inShadow = false;
-                
+
                 if (l.castsShadows()) {
                     Ray shadowRay = new Ray(sr.hitPoint, wi);
                     inShadow = l.inShadow(shadowRay, sr);
                 }
-                
-                if (!inShadow) { 
+
+                if (!inShadow) {
                     RGBColor total = diffuseBRDF.f(sr, wi, wo).add(specularBRDF.f(sr, wi, wo));
                     L.addTo(total.colorProduct(l.L(sr)).scale((float) ndotwi)); //diffuse part
                 }

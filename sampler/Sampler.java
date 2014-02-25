@@ -126,7 +126,7 @@ public abstract class Sampler {
 
         return diskSamples.get(sk.jump.get() + shuffledIndices.get(sk.count.getAndIncrement() % numSamples));
     }
-    
+
     public Point3D sampleUnitHemisphere(SamplerKey sk) {
         if (sk.count.get() % numSamples == 0)
             sk.jump.set((int)(Maths.randFloat() * numSets) * numSamples);
