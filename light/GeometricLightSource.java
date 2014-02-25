@@ -1,4 +1,4 @@
-package object;
+package light;
 
 import sampler.Sampler;
 import tracer.ShadeRec;

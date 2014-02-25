@@ -114,33 +114,64 @@ public abstract class Sampler {
     }
 
     public Point2D sampleUnitSquare(SamplerKey sk) {
-        if (sk.count.get() % numSamples == 0)
-            sk.jump.set((int)(Maths.randFloat() * numSets) * numSamples);
+        if (sk.getCount() % numSamples == 0)
+            sk.setJump((int)(Maths.randFloat() * numSets) * numSamples);
 
-        return samples.get(sk.jump.get() + shuffledIndices.get(sk.count.getAndIncrement() % numSamples));
+        return samples.get(sk.getJump() + shuffledIndices.get(sk.getJump() + sk.getAndIncrementCount() % numSamples));
     }
 
     public Point2D sampleUnitDisk(SamplerKey sk) {
-        if (sk.count.get() % numSamples == 0)
-            sk.jump.set((int)(Maths.randFloat() * numSets) * numSamples);
+        if (sk.getCount() % numSamples == 0) {
+            sk.setJump((int)(Maths.randFloat() * numSets) * numSamples);
+            sk.setCount(0);
+        }
 
-        return diskSamples.get(sk.jump.get() + shuffledIndices.get(sk.count.getAndIncrement() % numSamples));
+        return diskSamples.get(sk.getJump() + shuffledIndices.get(sk.getJump() + sk.getAndIncrementCount() % numSamples));
     }
 
     public Point3D sampleUnitHemisphere(SamplerKey sk) {
-        if (sk.count.get() % numSamples == 0)
-            sk.jump.set((int)(Maths.randFloat() * numSets) * numSamples);
+        if (sk.getCount() % numSamples == 0)
+            sk.setJump((int)(Maths.randFloat() * numSets) * numSamples);
 
-        return hemisphereSamples.get(sk.jump.get() + shuffledIndices.get(sk.count.getAndIncrement() % numSamples));
+        return hemisphereSamples.get(sk.getJump() + shuffledIndices.get(sk.getJump() + sk.getAndIncrementCount() % numSamples));
     }
 
     public static class SamplerKey {
-        private AtomicInteger count;
-        private AtomicInteger jump;
+        private ThreadLocal<AtomicInteger> count = new ThreadLocal<AtomicInteger>() {
+            @Override
+            protected AtomicInteger initialValue() {
+                return new AtomicInteger();
+            }
+        };
+        
+        private ThreadLocal<AtomicInteger> jump = new ThreadLocal<AtomicInteger>() {
+            @Override
+            protected AtomicInteger initialValue() {
+                return new AtomicInteger();
+            }
+        };
 
         public SamplerKey() {
-            count = new AtomicInteger(0);
-            jump = new AtomicInteger(0);
+        }
+
+        public int getCount() {
+            return count.get().get();
+        }
+        
+        public int getAndIncrementCount() {
+            return this.count.get().getAndIncrement();
+        }
+
+        public void setCount(int count) {
+            this.count.get().set(count);
+        }
+
+        public int getJump() {
+            return jump.get().get();
+        }
+
+        public void setJump(int jump) {
+            this.jump.get().set(jump);
         }
     }
 }

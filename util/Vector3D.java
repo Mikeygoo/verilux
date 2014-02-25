@@ -95,4 +95,12 @@ public class Vector3D {
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
+
+    public double lengthSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    public double length() {
+        return Math.sqrt(lengthSquared());
+    }
 }
