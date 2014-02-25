@@ -82,7 +82,28 @@ public class Matte extends Material {
 
     @Override
     public RGBColor areaLightShade(ShadeRec sr) {
-        throw new UnsupportedOperationException("Not supported.");
+        Vector3D wo = sr.ray.d.negate();
+        RGBColor L = ambientBRDF.rho(sr, wo).colorProduct(sr.world.getAmbient().L(sr));
+
+        for (Light l : sr.world.getLights()) {
+            Vector3D wi = l.getDirection(sr);
+            double ndotwi = sr.normal.dot(wi);
+
+            if (ndotwi > 0.0) {
+                boolean inShadow = false;
+
+                if (l.castsShadows()) {
+                    Ray shadowRay = new Ray(sr.hitPoint, wi);
+                    inShadow = l.inShadow(shadowRay, sr);
+                }
+
+                if (!inShadow) {
+                    L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).colorProduct(l.G(sr)).scale(((float) ndotwi)/((float) l.pdf(sr))));
+                }
+            }
+        }
+
+        return L;
     }
 
     @Override

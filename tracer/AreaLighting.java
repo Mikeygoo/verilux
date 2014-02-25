@@ -15,7 +15,12 @@ public class AreaLighting extends Tracer {
 
     @Override
     public RGBColor traceRay(Ray r) {
-        ShadeRec sr = (ShadeRec) world.hitObjects(r);//.clone(); //TODO: is this necessary?
-        throw new RuntimeException("TODO: Implement");
+        ShadeRec sr = (ShadeRec) world.hitObjects(r);
+        
+        if (sr.hitAnObject) {
+            sr.ray = r;
+            return sr.material.areaLightShade(sr);
+        } else
+            return world.getBackgroundColor();
     }
 }
