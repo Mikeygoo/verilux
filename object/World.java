@@ -17,11 +17,14 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import light.Ambient;
 import light.AmbientOccluder;
+import light.AreaLight;
 import light.JitteredPointLight;
 import light.Light;
+import material.Emissive;
 import material.Matte;
 import material.Phong;
 import sampler.MultiJittered;
+import tracer.AreaLighting;
 import tracer.RayCast;
 import tracer.ShadeRec;
 import tracer.Tracer;
@@ -115,11 +118,12 @@ public class World {
         ////////////////////////////// CONSTRUCT THE BASICS /////////////////////////////
         this.vp = new ViewPlane(Constants.WIDTH, Constants.HEIGHT, 1, 1f, new MultiJittered(Constants.SAMPLES, 83));
         this.backgroundColor = new RGBColor(0.8f);
-        this.tracer = new RayCast(this);
+        //this.tracer = new RayCast(this);
+        this.tracer = new AreaLighting(this);
 
-        AmbientOccluder ambient = new AmbientOccluder();
-        //Ambient ambient = new Ambient();
-        ambient.setRadiance(1f);
+        //AmbientOccluder ambient = new AmbientOccluder();
+        Ambient ambient = new Ambient();
+        ambient.setRadiance(.5f);
         this.ambient = ambient; //set it to world.
 
         Pinhole pinhole = new Pinhole(new Point3D(-500, 200, 50), new Point3D(-5, 0, 0), 850.0f);
@@ -130,22 +134,18 @@ public class World {
         /////////////////////////////////////////////////////////////////////////////////
         //                                    ***                                      //
         //////////////////////////////// ADD THE OBJECTS ////////////////////////////////
-        Phong phong_1 = new Phong();
-        phong_1.setKa(0.1f);
-        phong_1.setKd(0.25f);
-        phong_1.setKs(0.5f);
-        phong_1.setExp(30);
-        phong_1.setColor(new RGBColor(0.0f, 0.9f, 0.9f));
-        Sphere sphere_1 = new Sphere(phong_1, new Point3D(10, -5, 0), 27);
-        this.objects.add(sphere_1);
-
         Matte matte_2 = new Matte();
         matte_2.setKa(0.15f);
         matte_2.setKd(0.85f);
         matte_2.setColor(new RGBColor(0.75f, 0.75f, 0.00f));
+        Sphere sphere_1 = new Sphere(matte_2, new Point3D(10, -5, 0), 27);
+        this.objects.add(sphere_1);
+        
+        Emissive emissive_2 = new Emissive(0.005f, new RGBColor(1));
         //Sphere sphere_2 = new Sphere(matte_2, new Point3D(-25, 10, -35), 27);
-        Vector3D a = new Vector3D(40, 10, 0), b = new Vector3D(0, 10, 40);
-        Rectangle rectangle_2 = new Rectangle(matte_2, new Point3D(-25, 10, -35), a, b, new Normal(a.cross(b).normalize()).negate());
+        Vector3D a = new Vector3D(40, 0, 0), b = new Vector3D(0, 0, 40);
+        Rectangle rectangle_2 = new Rectangle(emissive_2, new Point3D(-25, 50, -35), a, b, new Normal(0, -1, 0));
+        rectangle_2.setSampler(new MultiJittered(Constants.SAMPLES, 83));
         this.objects.add(rectangle_2);
 
         Matte matte_3 = new Matte();
@@ -159,17 +159,20 @@ public class World {
         //                                    ***                                      //
         //////////////////////////////// ADD THE LIGHTS /////////////////////////////////
 
-        JitteredPointLight pointLight = new JitteredPointLight(new Point3D(100, 50, 150));
-        pointLight.setColor(new RGBColor(0.9f, 0.15f, 0.15f));
-        pointLight.setLightRadius(5.0f);
-        pointLight.setRadiance(20f);
-        //this.lights.add(pointLight);
-
-        JitteredPointLight pointLight_2 = new JitteredPointLight(new Point3D(0, 500, 0));
-        pointLight_2.setColor(new RGBColor(1f, 1f, 1f));
-        pointLight_2.setLightRadius(50.0f);
-        pointLight_2.setRadiance(3f);
-        this.lights.add(pointLight_2);
+//        JitteredPointLight pointLight = new JitteredPointLight(new Point3D(100, 50, 150));
+//        pointLight.setColor(new RGBColor(0.9f, 0.15f, 0.15f));
+//        pointLight.setLightRadius(5.0f);
+//        pointLight.setRadiance(20f);
+//        //this.lights.add(pointLight);
+//
+//        JitteredPointLight pointLight_2 = new JitteredPointLight(new Point3D(0, 500, 0));
+//        pointLight_2.setColor(new RGBColor(1f, 1f, 1f));
+//        pointLight_2.setLightRadius(50.0f);
+//        pointLight_2.setRadiance(3f);
+//        this.lights.add(pointLight_2);
+        
+        AreaLight areaLight = new AreaLight(rectangle_2);
+        lights.add(areaLight);
     }
 
     public ShadeRec hitObjects(Ray r) {

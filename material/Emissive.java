@@ -36,6 +36,7 @@ public class Emissive extends Material {
         this.ce = ce;
     }
     
+    @Override
     public RGBColor getLe(ShadeRec sr) {
         return ce.scale(ls);
     }

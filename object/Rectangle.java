@@ -116,7 +116,7 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     }
 
     @Override
-    public Normal getNormal() {
+    public Normal getNormal(Point3D p) {
         return normal;
     }
 }

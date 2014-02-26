@@ -1,5 +1,6 @@
 package light;
 
+import material.Material;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.Normal;
@@ -15,5 +16,7 @@ public interface GeometricLightSource {
     
     Point3D sample();
     double pdf(ShadeRec sr);
-    Normal getNormal();
+    Normal getNormal(Point3D p);
+    
+    public Material getMaterial();
 }

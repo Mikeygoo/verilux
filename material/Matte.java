@@ -98,7 +98,7 @@ public class Matte extends Material {
                 }
 
                 if (!inShadow) {
-                    //L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).colorProduct(l.G(sr)).scale(((float) ndotwi)/((float) l.pdf(sr))));
+                    L.addTo(diffuseBRDF.f(sr, wi, wo).colorProduct(l.L(sr)).scale(l.G(sr)).scale(((float) ndotwi)/((float) l.pdf(sr))));
                 }
             }
         }

@@ -19,9 +19,9 @@ public class Constants {
     public static final long LARGE_PRIME = 151_703L;
 
     ///
-    public static final int SAMPLES = 2500;
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
+    public static final int SAMPLES = 256;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 1000;
     public static final float ZOOM_FACTOR = 4f;
     public static final int slicesVertical = 8;
     public static final int slicesHorizontal = 4;

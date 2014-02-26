@@ -25,6 +25,14 @@ public abstract class Light {
     public abstract RGBColor L(ShadeRec sr);
 
     public abstract boolean inShadow(Ray r, ShadeRec sr);
+    
+    public float G(ShadeRec sr) {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+    
+    public double pdf(ShadeRec sr) {
+        return 0;
+    }
 
     public boolean castsShadows() {
         return shadows;
