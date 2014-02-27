@@ -21,9 +21,6 @@ public class Constants {
     ///
     public static int samples = 0;
     public static int sets = 0;
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 1000;
-    public static final float ZOOM_FACTOR = 4f;
     public static final int slicesVertical = 8;
     public static final int slicesHorizontal = 4;
 }

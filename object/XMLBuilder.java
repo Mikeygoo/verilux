@@ -92,7 +92,8 @@ public class XMLBuilder {
         
         int vpWidth = getIntegerAttribute(world, "width", 500);
         int vpHeight = getIntegerAttribute(world, "height", 500);
-        double zoom = getDoubleAttribute(world, "zoom", 1.0);
+        double zoom = getDoubleAttribute(world, "zoom", 1);
+        System.out.println("zoom = "+zoom);
         Sampler sampler = parseSamplerNode(world, "viewplane-sampler");
         ViewPlane vp = new ViewPlane(vpHeight, vpWidth, (float) zoom, 1.0f, sampler);
         w.setViewPlane(vp);
@@ -135,7 +136,7 @@ public class XMLBuilder {
     }
     
     private Light parseAmbientNode(Node n) {
-        switch (getStringAttribute(n, "ambient")) {
+        switch (getStringAttribute(n, "type")) {
             case "ambient": {
                 Ambient a = new Ambient();
                 double ls = getDoubleAttribute(getSubNode(n, "radiance"), "ls", 1);
@@ -232,6 +233,7 @@ public class XMLBuilder {
             }
             case "sphere": {
                 Sphere s = new Sphere();
+                s.setMaterial(m);
                 Point3D pos = parsePointNode(n, "point");
                 s.setCenter(pos);
                 double r = getDoubleAttribute(getSubNode(n, "radius"), "r", 1);
@@ -240,6 +242,7 @@ public class XMLBuilder {
             }
             case "rectangle": {
                 Rectangle r = new Rectangle();
+                r.setMaterial(m);
                 Point3D pos = parsePointNode(n, "point");
                 r.setPoint(pos);
                 Vector3D a = parseVectorNode(n, "a");
@@ -367,7 +370,7 @@ public class XMLBuilder {
                 p.setColor(col);
                 return p;
             }
-            case "lambertian": {
+            case "matte": {
                 Matte m = new Matte();
                 double ka = getDoubleAttribute(n2, "ka", 0);
                 m.setKa((float) ka);
@@ -407,11 +410,7 @@ public class XMLBuilder {
         if (n == null)
             return def;
         
-        Node item = null;
-        if (name == null)
-            item = n;
-        else
-            n.getAttributes().getNamedItem(name);
+        Node item = n.getAttributes().getNamedItem(name);
         
         if (item == null)
             return def;
@@ -423,11 +422,7 @@ public class XMLBuilder {
         if (n == null)
             return def;
         
-        Node item = null;
-        if (name == null)
-            item = n;
-        else
-            n.getAttributes().getNamedItem(name);
+        Node item = n.getAttributes().getNamedItem(name);
         
         if (item == null)
             return def;

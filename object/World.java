@@ -29,7 +29,7 @@ public class World {
     public static void main(String[] args) throws IOException {
         World w = new World();
 
-        final BufferedImage bi = new BufferedImage(Constants.WIDTH, Constants.HEIGHT, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage bi = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
 
         final JFrame jf = new JFrame() {
             @Override

@@ -31,6 +31,7 @@ public abstract class Camera {
     }
 
     private void computeUVW() {
+        //w = lookat.subtract(eye);
         w = eye.subtract(lookat);
         w.normalizeTo();
 
@@ -107,6 +108,9 @@ public abstract class Camera {
     }
 
     public void roll(double degrees) {
+        if (degrees == 0)
+            return;
+        
         totalRoll += degrees;
         double u0 = w.x, v0 = w.y, w0 = w.z;
         double x = up.x, y = up.y, z = up.z;
