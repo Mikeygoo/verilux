@@ -15,8 +15,11 @@ import util.Vector3D;
 public class JitteredPointLight extends Light {
     private float lr;
     private float ls;
-    RGBColor color;
+    private RGBColor color;
     private Point3D location;
+
+    public JitteredPointLight() {
+    }
 
     public JitteredPointLight(Point3D location) {
         this(1f, RGBColor.WHITE, location);
@@ -81,5 +84,9 @@ public class JitteredPointLight extends Light {
 
     public void setLightRadius(float f) {
         lr = f;
+    }
+
+    public void setRadius(float lr) {
+        this.lr = lr;
     }
 }

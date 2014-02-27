@@ -26,6 +26,9 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     
     private Sampler.SamplerKey samplerKey = new Sampler.SamplerKey();
 
+    public Rectangle() {
+    }
+
     public Rectangle(Material material, Point3D p0, Vector3D a, Vector3D b, Normal normal, Sampler sampler) {
         super(material);
         this.p0 = p0;
@@ -118,5 +121,19 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     @Override
     public Normal getNormal(Point3D p) {
         return normal;
+    }
+
+    public void setPoint(Point3D p0) {
+        this.p0 = p0;
+    }
+    
+    public void setVectors(Vector3D a, Vector3D b) {
+        this.a = a;
+        this.b = b;
+        this.invArea = 1 / (a.length() * b.length());
+    }
+
+    public void setNormal(Normal normal) {
+        this.normal = normal;
     }
 }

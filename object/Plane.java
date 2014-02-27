@@ -16,6 +16,9 @@ public class Plane extends GeometricObject {
     private Point3D point;
     private Normal normal;
 
+    public Plane() {
+    }
+
     public Plane(Material m, Point3D p, Normal n) {
         super(m);
         point = p;

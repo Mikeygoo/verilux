@@ -16,6 +16,9 @@ public class PointLight extends Light {
     RGBColor color;
     private Point3D location;
 
+    public PointLight() {
+    }
+
     public PointLight(Point3D location) {
         this(1f, RGBColor.WHITE, location);
     }

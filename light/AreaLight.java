@@ -14,6 +14,9 @@ import util.Vector3D;
 public class AreaLight extends Light {
     private GeometricLightSource object;
     private Material material;
+
+    public AreaLight() {
+    }
     
     public AreaLight (GeometricLightSource object) {
         this(object, object.getMaterial(), true);
@@ -71,5 +74,16 @@ public class AreaLight extends Light {
     @Override
     public double pdf(ShadeRec sr) {
         return object.pdf(sr);
+    }
+
+    public GeometricLightSource getObject() {
+        return object;
+    }
+
+    public void setObject(GeometricObject obj) {
+        if (!(obj instanceof GeometricLightSource))
+            throw new RuntimeException("Not a valid Geometric Light Source.");
+        object = (GeometricLightSource) obj;
+        material = obj.getMaterial();
     }
 }

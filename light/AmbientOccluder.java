@@ -27,7 +27,7 @@ public class AmbientOccluder extends Light {
     }
 
     public AmbientOccluder(float ls, RGBColor color) {
-        this(ls, color, new MultiJittered(Constants.SAMPLES, 83, 1));
+        this(ls, color, new MultiJittered(Constants.samples, 83, 1));
     }
 
     public AmbientOccluder(float ls, RGBColor color, Sampler s) {

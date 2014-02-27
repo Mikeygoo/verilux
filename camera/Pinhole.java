@@ -1,6 +1,5 @@
 package camera;
 
-import constant.Constants;
 import object.ViewPlane;
 import object.World;
 import sampler.Sampler;

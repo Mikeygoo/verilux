@@ -17,6 +17,9 @@ public class Sphere extends GeometricObject {
     private Point3D center;
     private double radius;
 
+    public Sphere() {
+    }
+
     public Sphere(Material m, Point3D ctr, double rad) {
         super(m);
         center = ctr;

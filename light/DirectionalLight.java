@@ -16,6 +16,9 @@ public class DirectionalLight extends Light {
     RGBColor color;
     Vector3D direction;
 
+    public DirectionalLight() {
+    }
+
     public DirectionalLight(Vector3D direction) {
         this(1, RGBColor.WHITE, direction, true);
     }
