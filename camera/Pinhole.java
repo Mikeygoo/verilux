@@ -57,10 +57,6 @@ public class Pinhole extends Camera {
         }
     }
 
-    public double getZoom() {
-        return zoom;
-    }
-
     public void setZoom(double zoom) {
         this.zoom = zoom;
     }

@@ -19,21 +19,7 @@ public class JitteredPointLight extends Light {
     private Point3D location;
 
     public JitteredPointLight() {
-    }
-
-    public JitteredPointLight(Point3D location) {
-        this(1f, RGBColor.WHITE, location);
-    }
-
-    public JitteredPointLight(float ls, RGBColor color, Point3D location) {
-        this(ls, color, location, true);
-    }
-
-    public JitteredPointLight(float ls, RGBColor color, Point3D location, boolean shadows) {
-        super(shadows);
-        this.ls = ls;
-        this.color = color;
-        this.location = location;
+        super(true);
     }
 
     @Override
@@ -62,20 +48,12 @@ public class JitteredPointLight extends Light {
         return false;
     }
 
-    public RGBColor getColor() {
-        return color;
-    }
-
     public void setColor(RGBColor color) {
         this.color = color;
     }
 
     public void setRadiance(float ls) {
         this.ls = ls;
-    }
-
-    public Point3D getLocation() {
-        return location;
     }
 
     public void setLocation(Point3D location) {

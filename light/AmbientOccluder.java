@@ -23,18 +23,7 @@ public class AmbientOccluder extends Light {
     RGBColor color;
 
     public AmbientOccluder() {
-        this(1, RGBColor.WHITE);
-    }
-
-    public AmbientOccluder(float ls, RGBColor color) {
-        this(ls, color, new MultiJittered(Constants.samples, 83, 1));
-    }
-
-    public AmbientOccluder(float ls, RGBColor color, Sampler s) {
         super(true);
-        this.s = s;
-        this.ls = ls;
-        this.color = color;
     }
 
     @Override
@@ -75,20 +64,12 @@ public class AmbientOccluder extends Light {
         return false;
     }
 
-    public RGBColor getColor() {
-        return color;
-    }
-
     public void setColor(RGBColor color) {
         this.color = color;
     }
 
     public void setRadiance(float ls) {
         this.ls = ls;
-    }
-
-    public float getMinAmount() {
-        return minAmount;
     }
 
     public void setMinAmount(float minAmount) {

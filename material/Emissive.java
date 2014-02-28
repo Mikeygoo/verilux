@@ -12,24 +12,10 @@ public class Emissive extends Material {
     private RGBColor ce;
 
     public Emissive() {
-        this(1, RGBColor.WHITE);
-    }
-
-    public Emissive(float ls, RGBColor ce) {
-        this.ls = ls;
-        this.ce = ce;
-    }
-
-    public float getLs() {
-        return ls;
     }
 
     public void setLs(float ls) {
         this.ls = ls;
-    }
-
-    public RGBColor getCe() {
-        return ce;
     }
 
     public void setCe(RGBColor ce) {

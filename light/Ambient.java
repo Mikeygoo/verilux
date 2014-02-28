@@ -14,17 +14,7 @@ public class Ambient extends Light {
     private RGBColor color;
 
     public Ambient() {
-        this(1.0f, RGBColor.WHITE, true);
-    }
-
-    public Ambient(float ls, RGBColor color) {
-        this(ls, color, true);
-    }
-
-    public Ambient(float ls, RGBColor color, boolean shadows) {
-        super(shadows);
-        this.ls = ls;
-        this.color = color;
+        super(true);
     }
 
     @Override
@@ -40,10 +30,6 @@ public class Ambient extends Light {
     @Override
     public boolean inShadow(Ray r, ShadeRec sr) {
         return false;
-    }
-
-    public RGBColor getColor() {
-        return color;
     }
 
     public void setColor(RGBColor color) {

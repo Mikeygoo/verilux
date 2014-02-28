@@ -17,22 +17,7 @@ public class DirectionalLight extends Light {
     Vector3D direction;
 
     public DirectionalLight() {
-    }
-
-    public DirectionalLight(Vector3D direction) {
-        this(1, RGBColor.WHITE, direction, true);
-    }
-
-    public DirectionalLight(float ls, RGBColor color, Vector3D direction) {
-        this(ls, color, direction, true);
-    }
-
-    public DirectionalLight(float ls, RGBColor color, Vector3D direction, boolean shadows) {
-        super(shadows);
-        this.ls = ls;
-        this.color = color;
-        this.direction = direction;
-        direction.normalizeTo();
+        super(true);
     }
 
     @Override
@@ -50,21 +35,17 @@ public class DirectionalLight extends Light {
         return false;
     }
 
-    public RGBColor getColor() {
-        return color;
+    @Override
+    public Vector3D getDirection(ShadeRec sr) {
+        return direction;
     }
-
+    
     public void setColor(RGBColor color) {
         this.color = color;
     }
 
     public void setRadiance(float ls) {
         this.ls = ls;
-    }
-
-    @Override
-    public Vector3D getDirection(ShadeRec sr) {
-        return direction;
     }
 
     public void setDirection(Vector3D direction) {

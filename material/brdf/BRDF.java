@@ -1,5 +1,7 @@
 package material.brdf;
 
+import constant.Constants;
+import sampler.MultiJittered;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.RGBColor;
@@ -13,11 +15,7 @@ public abstract class BRDF {
     private Sampler sampler;
 
     public BRDF() {
-        this(null);
-    }
-
-    public BRDF(Sampler sampler) {
-        this.sampler = sampler;
+        sampler = new MultiJittered(Constants.samples, Constants.sets); //todo: add to XML interpreter for materials!
     }
 
     public Sampler getSampler() {

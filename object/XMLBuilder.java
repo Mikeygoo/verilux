@@ -21,7 +21,6 @@ import material.Emissive;
 import material.Material;
 import material.Matte;
 import material.Phong;
-import material.brdf.Lambertian;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -93,7 +92,6 @@ public class XMLBuilder {
         int vpWidth = getIntegerAttribute(world, "width", 500);
         int vpHeight = getIntegerAttribute(world, "height", 500);
         double zoom = getDoubleAttribute(world, "zoom", 1);
-        System.out.println("zoom = "+zoom);
         Sampler sampler = parseSamplerNode(world, "viewplane-sampler");
         ViewPlane vp = new ViewPlane(vpHeight, vpWidth, (float) zoom, 1.0f, sampler);
         w.setViewPlane(vp);

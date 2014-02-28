@@ -23,17 +23,6 @@ public class EnvironmentLight extends Light {
     public EnvironmentLight() {
     }
 
-    public EnvironmentLight(Material material, Sampler sampler) {
-        this.material = material;
-        this.sampler = sampler;
-    }
-
-    public EnvironmentLight(Material material, Sampler sampler, boolean shadows) {
-        super(shadows);
-        this.material = material;
-        this.sampler = sampler;
-    }
-
     @Override
     public Vector3D getDirection(ShadeRec sr) {
         Vector3D w = new Vector3D(sr.normal);
@@ -78,16 +67,8 @@ public class EnvironmentLight extends Light {
         return 1;
     }
 
-    public Material getMaterial() {
-        return material;
-    }
-
     public void setMaterial(Material material) {
         this.material = material;
-    }
-
-    public Sampler getSampler() {
-        return sampler;
     }
 
     public void setSampler(Sampler sampler) {

@@ -16,10 +16,6 @@ public abstract class GeometricObject {
         //TODO: Default material.
     }
 
-    public GeometricObject(Material material) {
-        this.material = material;
-    }
-
     public Material getMaterial() {
         return material;
     }

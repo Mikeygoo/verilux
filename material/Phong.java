@@ -17,49 +17,25 @@ public class Phong extends Material {
     private GlossySpecular specularBRDF;
 
     public Phong() {
-        this(1, 1, 1, 1, RGBColor.WHITE);
-    }
-
-    public Phong(float ka, float kd, float ks, float exp, RGBColor color) {
-        ambientBRDF = new Lambertian(ka, color);
-        diffuseBRDF = new Lambertian(kd, color);
-        specularBRDF = new GlossySpecular(ks, color, exp);
-    }
-
-    public float getKa() {
-        return ambientBRDF.getIntensity();
+        ambientBRDF = new Lambertian(1, RGBColor.WHITE);
+        diffuseBRDF = new Lambertian(1, RGBColor.WHITE);
+        specularBRDF = new GlossySpecular(1, RGBColor.WHITE, 1);
     }
 
     public void setKa(float f) {
         ambientBRDF.setIntensity(f);
     }
 
-    public float getKd() {
-        return diffuseBRDF.getIntensity();
-    }
-
     public void setKd(float f) {
         diffuseBRDF.setIntensity(f);
-    }
-
-    public float getKs() {
-        return specularBRDF.getIntensity();
     }
 
     public void setKs(float f) {
         specularBRDF.setIntensity(f);
     }
 
-    public float getExp() {
-        return specularBRDF.getExp();
-    }
-
     public void setExp(float f) {
         specularBRDF.setExp(f);
-    }
-
-    public RGBColor getColor() {
-        return diffuseBRDF.getColor();
     }
 
     public void setColor(RGBColor color) {
@@ -103,7 +79,30 @@ public class Phong extends Material {
 
     @Override
     public RGBColor areaLightShade(ShadeRec sr) {
-        throw new UnsupportedOperationException("Not supported.");
+        Vector3D wo = sr.ray.d.negate();
+        RGBColor L = new RGBColor(0);
+        L.addTo(ambientBRDF.rho(sr, wo).colorProduct(sr.world.getAmbient().L(sr)));
+
+        for (Light l : sr.world.getLights()) {
+            Vector3D wi = l.getDirection(sr);
+            double ndotwi = sr.normal.dot(wi);
+
+            if (ndotwi > 0.0) {
+                boolean inShadow = false;
+
+                if (l.castsShadows()) {
+                    Ray shadowRay = new Ray(sr.hitPoint, wi);
+                    inShadow = l.inShadow(shadowRay, sr);
+                }
+
+                if (!inShadow) {
+                    RGBColor total = diffuseBRDF.f(sr, wi, wo).add(specularBRDF.f(sr, wi, wo));
+                    L.addTo(total.colorProduct(l.L(sr)).scale(l.G(sr)).scale(((float) ndotwi)/((float) l.pdf(sr)))); //diffuse part
+                }
+            }
+        }
+
+        return L;
     }
 
     @Override

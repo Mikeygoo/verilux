@@ -19,22 +19,8 @@ public class Plane extends GeometricObject {
     public Plane() {
     }
 
-    public Plane(Material m, Point3D p, Normal n) {
-        super(m);
-        point = p;
-        normal = n;
-    }
-
-    public Point3D getPoint() {
-        return point;
-    }
-
     public void setPoint(Point3D point) {
         this.point = point;
-    }
-
-    public Normal getNormal() {
-        return normal;
     }
 
     public void setNormal(Normal normal) {

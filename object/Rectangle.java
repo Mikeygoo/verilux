@@ -29,21 +29,6 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     public Rectangle() {
     }
 
-    public Rectangle(Material material, Point3D p0, Vector3D a, Vector3D b, Normal normal, Sampler sampler) {
-        super(material);
-        this.p0 = p0;
-        this.a = a;
-        this.b = b;
-        this.normal = normal;
-        normal.normalize();
-        this.sampler = null;
-        this.invArea = 1 / (a.length() * b.length());
-    }
-    
-    public Rectangle(Material material, Point3D p0, Vector3D a, Vector3D b, Normal normal) {
-        this(material, p0, a, b, normal, null);
-    }
-
     @Override
     public double hit(Ray r, ShadeRec sr) {
 	double t = p0.subtract(r.o).dot(normal)/r.d.dot(normal); 

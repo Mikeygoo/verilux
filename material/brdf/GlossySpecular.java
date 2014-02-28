@@ -20,13 +20,6 @@ public class GlossySpecular extends BRDF {
         this.exp = exp;
     }
 
-    public GlossySpecular(float ks, RGBColor cs, Sampler sampler, float exp) {
-        super(sampler);
-        this.ks = ks;
-        this.cs = cs;
-        this.exp = exp;
-    }
-
     @Override
     public RGBColor f(ShadeRec sr, Vector3D wi, Vector3D wo) {
         RGBColor L = new RGBColor(0);
@@ -50,24 +43,12 @@ public class GlossySpecular extends BRDF {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public RGBColor getColor() {
-        return cs;
-    }
-
     public void setColor(RGBColor cs) {
         this.cs = cs;
     }
 
-    public float getIntensity() {
-        return ks;
-    }
-
     public void setIntensity(float ks) {
         this.ks = ks;
-    }
-
-    public float getExp() {
-        return exp;
     }
 
     public void setExp(float exp) {

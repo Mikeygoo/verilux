@@ -16,22 +16,9 @@ public class AreaLight extends Light {
     private Material material;
 
     public AreaLight() {
+        super(true);
     }
     
-    public AreaLight (GeometricLightSource object) {
-        this(object, object.getMaterial(), true);
-    }
-
-    public AreaLight(GeometricLightSource object, Material material) {
-        this(object, material, true);
-    }
-
-    public AreaLight(GeometricLightSource object, Material material, boolean shadows) {
-        super(shadows);
-        this.object = object;
-        this.material = material;
-    }
-
     @Override
     public Vector3D getDirection(ShadeRec sr) {
         sr.samplePoint = object.sample();

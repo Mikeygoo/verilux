@@ -16,32 +16,16 @@ public class Matte extends Material {
     private Lambertian ambientBRDF, diffuseBRDF;
 
     public Matte() {
-        this(1, 1, RGBColor.WHITE);
-    }
-
-    public Matte(float ka, float kd, RGBColor color) {
-        ambientBRDF = new Lambertian(ka, color);
-        diffuseBRDF = new Lambertian(kd, color);
-    }
-
-    public float getKa() {
-        return ambientBRDF.getIntensity();
+        ambientBRDF = new Lambertian(1, RGBColor.WHITE);
+        diffuseBRDF = new Lambertian(1, RGBColor.WHITE);
     }
 
     public void setKa(float f) {
         ambientBRDF.setIntensity(f);
     }
 
-    public float getKd() {
-        return diffuseBRDF.getIntensity();
-    }
-
     public void setKd(float f) {
         diffuseBRDF.setIntensity(f);
-    }
-
-    public RGBColor getColor() {
-        return diffuseBRDF.getColor();
     }
 
     public void setColor(RGBColor color) {

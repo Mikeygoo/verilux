@@ -75,34 +75,6 @@ public abstract class Camera {
 
     public abstract void renderSceneSlice(World world, Buffer img, int lr, int hr, int lc, int hc);
 
-    public Point3D getEye() {
-        return eye;
-    }
-
-    public Point3D getLookat() {
-        return lookat;
-    }
-
-    public Vector3D getUp() {
-        return up;
-    }
-
-    public Vector3D getU() {
-        return u;
-    }
-
-    public Vector3D getV() {
-        return v;
-    }
-
-    public Vector3D getW() {
-        return w;
-    }
-
-    public float getExposure() {
-        return exposure;
-    }
-
     public void setExposure(float exposure) {
         this.exposure = exposure;
     }
@@ -120,10 +92,6 @@ public abstract class Camera {
                                         w0 * (u0 * x + v0 * y + w0 * z) * (1 - Math.cos(t)) + z * Math.cos(t) + (u0 * y - v0 * x) * Math.sin(t));
         up = upPrime;
         computeUVW();
-    }
-
-    public double getTotalRoll() {
-        return totalRoll;
     }
 
     public void unroll() {

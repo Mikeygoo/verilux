@@ -20,22 +20,8 @@ public class Sphere extends GeometricObject {
     public Sphere() {
     }
 
-    public Sphere(Material m, Point3D ctr, double rad) {
-        super(m);
-        center = ctr;
-        radius = rad;
-    }
-
-    public Point3D getCenter() {
-        return center;
-    }
-
     public void setCenter(Point3D center) {
         this.center = center;
-    }
-
-    public double getRadius() {
-        return radius;
     }
 
     public void setRadius(double radius) {

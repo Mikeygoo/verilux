@@ -3,7 +3,6 @@ package object;
 import camera.Buffer;
 import camera.BufferedImageWrappingBuffer;
 import camera.Camera;
-import constant.Constants;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +28,7 @@ public class World {
     public static void main(String[] args) throws IOException {
         World w = new World();
 
-        final BufferedImage bi = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage bi = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
         final JFrame jf = new JFrame() {
             @Override

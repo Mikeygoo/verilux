@@ -56,10 +56,6 @@ public class PointLight extends Light {
         return false;
     }
 
-    public RGBColor getColor() {
-        return color;
-    }
-
     public void setColor(RGBColor color) {
         this.color = color;
     }
@@ -67,11 +63,7 @@ public class PointLight extends Light {
     public void setRadiance(float ls) {
         this.ls = ls;
     }
-
-    public Point3D getLocation() {
-        return location;
-    }
-
+    
     public void setLocation(Point3D location) {
         this.location = location;
     }
