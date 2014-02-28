@@ -2,7 +2,6 @@ package light;
 
 import object.GeometricObject;
 import tracer.ShadeRec;
-import util.Point3D;
 import util.RGBColor;
 import util.Ray;
 import util.Vector3D;

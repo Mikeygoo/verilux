@@ -1,8 +1,6 @@
 package light;
 
-import constant.Constants;
 import object.GeometricObject;
-import sampler.*;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.Point3D;

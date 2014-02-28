@@ -1,8 +1,6 @@
 package object;
 
 import light.GeometricLightSource;
-import material.Material;
-import sampler.PureRandom;
 import sampler.Sampler;
 import tracer.ShadeRec;
 import util.Normal;

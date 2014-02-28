@@ -4,7 +4,6 @@ import material.Material;
 import object.World;
 import util.Normal;
 import util.Point3D;
-import util.RGBColor;
 import util.Ray;
 import util.Vector3D;
 

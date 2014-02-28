@@ -1,6 +1,5 @@
 package material.brdf;
 
-import sampler.Sampler;
 import tracer.ShadeRec;
 import util.RGBColor;
 import util.Vector3D;

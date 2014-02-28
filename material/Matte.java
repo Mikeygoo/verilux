@@ -2,7 +2,6 @@ package material;
 
 import material.brdf.Lambertian;
 import light.Light;
-import object.World;
 import tracer.ShadeRec;
 import util.RGBColor;
 import util.Ray;

@@ -2,7 +2,6 @@ package object;
 
 import material.Material;
 import tracer.ShadeRec;
-import util.RGBColor;
 import util.Ray;
 
 /**

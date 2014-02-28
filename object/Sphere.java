@@ -1,10 +1,8 @@
 package object;
 
-import material.Material;
 import tracer.ShadeRec;
 import util.Normal;
 import util.Point3D;
-import util.RGBColor;
 import util.Ray;
 import util.Vector3D;
 
