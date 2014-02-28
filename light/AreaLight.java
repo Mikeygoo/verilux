@@ -18,23 +18,24 @@ public class AreaLight extends Light {
     public AreaLight() {
         super(true);
     }
-    
+
     @Override
     public Vector3D getDirection(ShadeRec sr) {
         sr.samplePoint = object.sample();
         sr.lightNormal = object.getNormal(sr.samplePoint);
         sr.wi = sr.samplePoint.subtract(sr.hitPoint);
         sr.wi.normalize();
-        
+
         return sr.wi;
     }
 
     @Override
     public RGBColor L(ShadeRec sr) {
         double ndotd = sr.lightNormal.negate().dot(sr.wi);
-        
+
         if (ndotd > 0.0)
             return material.getLe(sr);
+
         return new RGBColor(0);
     }
 
@@ -54,12 +55,13 @@ public class AreaLight extends Light {
     public float G(ShadeRec sr) {
         double ndotd = sr.lightNormal.negate().dot(sr.wi);
         double d2 = sr.samplePoint.distanceSquared(sr.hitPoint);
-        
-        return (float) (ndotd / d2);
+
+        return (float)(ndotd / d2);
     }
 
     @Override
     public double pdf(ShadeRec sr) {
+        //todo: implement toggle-able dependency on surface area, for easier scene building.
         return object.pdf(sr);
     }
 
@@ -70,6 +72,7 @@ public class AreaLight extends Light {
     public void setObject(GeometricObject obj) {
         if (!(obj instanceof GeometricLightSource))
             throw new RuntimeException("Not a valid Geometric Light Source.");
+
         object = (GeometricLightSource) obj;
         material = obj.getMaterial();
     }

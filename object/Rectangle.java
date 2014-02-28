@@ -21,9 +21,9 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     private Vector3D a, b;
     private Normal normal;
     private Sampler sampler;
-    
+
     private double invArea;
-    
+
     private Sampler.SamplerKey samplerKey = new Sampler.SamplerKey();
 
     public Rectangle() {
@@ -31,53 +31,53 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
 
     @Override
     public double hit(Ray r, ShadeRec sr) {
-	double t = p0.subtract(r.o).dot(normal)/r.d.dot(normal); 
-	
-	if (t <= K_EPSILON)
-		return Double.POSITIVE_INFINITY;
-			
-	Point3D p = r.o.add(r.d.scale(t));
-	Vector3D d = p.subtract(p0);
-	
+        double t = p0.subtract(r.o).dot(normal) / r.d.dot(normal);
+
+        if (t <= K_EPSILON)
+            return Double.POSITIVE_INFINITY;
+
+        Point3D p = r.o.add(r.d.scale(t));
+        Vector3D d = p.subtract(p0);
+
         double aLenSquared = a.lengthSquared(), bLenSquared = b.lengthSquared();
-	double ddota = d.dot(a);
-	
-	if (ddota < 0.0 || ddota > aLenSquared)
-		return Double.POSITIVE_INFINITY;
-		
-	double ddotb = d.dot(b);
-	
-	if (ddotb < 0.0 || ddotb > bLenSquared)
-		return Double.POSITIVE_INFINITY;
-        
-	sr.normal = normal;
-	sr.localHitPoint = p;
-	
-	return t;
+        double ddota = d.dot(a);
+
+        if (ddota < 0.0 || ddota > aLenSquared)
+            return Double.POSITIVE_INFINITY;
+
+        double ddotb = d.dot(b);
+
+        if (ddotb < 0.0 || ddotb > bLenSquared)
+            return Double.POSITIVE_INFINITY;
+
+        sr.normal = normal;
+        sr.localHitPoint = p;
+
+        return t;
     }
 
     @Override
     public double hitShadow(Ray r) {
-        double t = p0.subtract(r.o).dot(normal)/r.d.dot(normal); 
-	
-	if (t <= K_EPSILON)
-		return Double.POSITIVE_INFINITY;
-			
-	Point3D p = r.o.add(r.d.scale(t));
-	Vector3D d = p.subtract(p0);
-	
+        double t = p0.subtract(r.o).dot(normal) / r.d.dot(normal);
+
+        if (t <= K_EPSILON)
+            return Double.POSITIVE_INFINITY;
+
+        Point3D p = r.o.add(r.d.scale(t));
+        Vector3D d = p.subtract(p0);
+
         double aLenSquared = a.lengthSquared(), bLenSquared = b.lengthSquared();
-	double ddota = d.dot(a);
-	
-	if (ddota < 0.0 || ddota > aLenSquared)
-		return Double.POSITIVE_INFINITY;
-		
-	double ddotb = d.dot(b);
-	
-	if (ddotb < 0.0 || ddotb > bLenSquared)
-		return Double.POSITIVE_INFINITY;
-	
-	return t;
+        double ddota = d.dot(a);
+
+        if (ddota < 0.0 || ddota > aLenSquared)
+            return Double.POSITIVE_INFINITY;
+
+        double ddotb = d.dot(b);
+
+        if (ddotb < 0.0 || ddotb > bLenSquared)
+            return Double.POSITIVE_INFINITY;
+
+        return t;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class Rectangle extends GeometricObject implements GeometricLightSource {
     public void setPoint(Point3D p0) {
         this.p0 = p0;
     }
-    
+
     public void setVectors(Vector3D a, Vector3D b) {
         this.a = a;
         this.b = b;

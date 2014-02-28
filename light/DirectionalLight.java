@@ -39,7 +39,7 @@ public class DirectionalLight extends Light {
     public Vector3D getDirection(ShadeRec sr) {
         return direction;
     }
-    
+
     public void setColor(RGBColor color) {
         this.color = color;
     }

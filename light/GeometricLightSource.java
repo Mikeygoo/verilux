@@ -13,10 +13,10 @@ import util.Point3D;
 public interface GeometricLightSource {
     Sampler getSampler();
     void setSampler(Sampler s);
-    
+
     Point3D sample();
     double pdf(ShadeRec sr);
     Normal getNormal(Point3D p);
-    
+
     public Material getMaterial();
 }

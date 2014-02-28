@@ -97,7 +97,7 @@ public class Phong extends Material {
 
                 if (!inShadow) {
                     RGBColor total = diffuseBRDF.f(sr, wi, wo).add(specularBRDF.f(sr, wi, wo));
-                    L.addTo(total.colorProduct(l.L(sr)).scale(l.G(sr)).scale(((float) ndotwi)/((float) l.pdf(sr)))); //diffuse part
+                    L.addTo(total.colorProduct(l.L(sr)).scale(l.G(sr)).scale(((float) ndotwi) / ((float) l.pdf(sr)))); //diffuse part
                 }
             }
         }

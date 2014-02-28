@@ -85,7 +85,7 @@ public class World {
     private void build() {
         new XMLBuilder(this).build();
     }
-    
+
     public ShadeRec hitObjects(Ray r) {
         ShadeRec sr = new ShadeRec(this);
         double tmin = Double.MAX_VALUE;
@@ -172,7 +172,7 @@ public class World {
     public Iterable<Light> getLights() {
         return lights;
     }
-    
+
     public void addLight(Light l) {
         lights.add(l);
     }
@@ -180,7 +180,7 @@ public class World {
     public Iterable<GeometricObject> getObjects() {
         return objects;
     }
-    
+
     public void addObject(GeometricObject g) {
         objects.add(g);
     }

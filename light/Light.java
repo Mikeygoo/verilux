@@ -25,11 +25,11 @@ public abstract class Light {
     public abstract RGBColor L(ShadeRec sr);
 
     public abstract boolean inShadow(Ray r, ShadeRec sr);
-    
+
     public float G(ShadeRec sr) {
         return 1;
     }
-    
+
     public double pdf(ShadeRec sr) {
         return 1;
     }

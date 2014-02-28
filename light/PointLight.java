@@ -63,7 +63,7 @@ public class PointLight extends Light {
     public void setRadiance(float ls) {
         this.ls = ls;
     }
-    
+
     public void setLocation(Point3D location) {
         this.location = location;
     }

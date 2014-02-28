@@ -75,4 +75,8 @@ public class AmbientOccluder extends Light {
     public void setMinAmount(float minAmount) {
         this.minAmount = minAmount;
     }
+
+    public void setSampler(Sampler s) {
+        this.s = s;
+    }
 }

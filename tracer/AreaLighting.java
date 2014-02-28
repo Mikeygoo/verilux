@@ -16,7 +16,7 @@ public class AreaLighting extends Tracer {
     @Override
     public RGBColor traceRay(Ray r) {
         ShadeRec sr = (ShadeRec) world.hitObjects(r);
-        
+
         if (sr.hitAnObject) {
             sr.ray = r;
             return sr.material.areaLightShade(sr);

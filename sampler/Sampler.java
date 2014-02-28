@@ -143,7 +143,7 @@ public abstract class Sampler {
                 return new AtomicInteger();
             }
         };
-        
+
         private ThreadLocal<AtomicInteger> jump = new ThreadLocal<AtomicInteger>() {
             @Override
             protected AtomicInteger initialValue() {
@@ -157,7 +157,7 @@ public abstract class Sampler {
         public int getCount() {
             return count.get().get();
         }
-        
+
         public int getAndIncrementCount() {
             return this.count.get().getAndIncrement();
         }

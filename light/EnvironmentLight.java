@@ -15,7 +15,7 @@ import util.Vector3D;
  */
 public class EnvironmentLight extends Light {
     private static Vector3D ALMOST_Y_AXIS = new Vector3D(0.0034, 1, 0.0071);
-    
+
     private Material material;
     private Sampler sampler;
     private Sampler.SamplerKey sk = new Sampler.SamplerKey();
@@ -29,14 +29,14 @@ public class EnvironmentLight extends Light {
         Vector3D v = ALMOST_Y_AXIS.cross(w);
         v.normalizeTo();
         Vector3D u = v.cross(w);
-        
+
         Point3D sp = sampler.sampleUnitHemisphere(sk);
-        
+
         Vector3D wi = new Vector3D(0);
         wi.addTo(u.scale(sp.x));
         wi.addTo(v.scale(sp.y));
         wi.addTo(w.scale(sp.z));
-        
+
         sr.wi = wi;
         wi.normalizeTo();
         return wi;

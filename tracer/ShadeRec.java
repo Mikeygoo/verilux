@@ -14,16 +14,16 @@ import util.Vector3D;
  */
 public class ShadeRec {
     public boolean hitAnObject;
-    public double hitDistance;      
+    public double hitDistance;
     public Point3D localHitPoint;
-    public Point3D hitPoint;        
+    public Point3D hitPoint;
     public Ray ray;                 // the ray
     public Vector3D direction;      // the direction ray is fired
     public Normal normal;           // the hit normal
     public Material material;       // the normal of the hit location
     public World world;             // the world
     public int depth;               // the depth into a transparent object.
-    
+
     /* members for Area Lighting. */
     /* included in this class to prevent interleaved synchronization error */
     public Point3D samplePoint;     // sample point on emissive material

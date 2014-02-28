@@ -21,7 +21,7 @@ public class Emissive extends Material {
     public void setCe(RGBColor ce) {
         this.ce = ce;
     }
-    
+
     @Override
     public RGBColor getLe(ShadeRec sr) {
         return ce.scale(ls);
