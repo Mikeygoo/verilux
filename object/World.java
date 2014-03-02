@@ -37,7 +37,7 @@ public class World {
             }
         };
 
-        jf.setSize(1000, 1000);
+        jf.setSize(500, 500);
         jf.setVisible(true);
 
         new Thread() {

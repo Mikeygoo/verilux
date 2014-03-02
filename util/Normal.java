@@ -59,7 +59,7 @@ public class Normal {
         return new Normal(d * x, d * y, d * z);
     }
 
-    public void normalize() {
+    public void normalizeTo() {
         double l = Math.sqrt(x * x + y * y + z * z);
         x /= l;
         y /= l;

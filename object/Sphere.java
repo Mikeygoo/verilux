@@ -1,5 +1,8 @@
 package object;
 
+import constant.Constants;
+import light.GeometricLightSource;
+import sampler.Sampler;
 import tracer.ShadeRec;
 import util.Normal;
 import util.Point3D;
@@ -10,10 +13,14 @@ import util.Vector3D;
  *
  * @author michael
  */
-public class Sphere extends GeometricObject {
+public class Sphere extends GeometricObject implements GeometricLightSource {
     private static final double K_EPSILON = 0.00001;
+    private Sampler sampler;
     private Point3D center;
     private double radius;
+    private double invArea;
+    
+    private Sampler.SamplerKey samplerKey = new Sampler.SamplerKey();
 
     public Sphere() {
     }
@@ -24,6 +31,7 @@ public class Sphere extends GeometricObject {
 
     public void setRadius(double radius) {
         this.radius = radius;
+        this.invArea = Constants.PI_OVER_FOUR * (1 / radius / radius);
     }
 
     @Override
@@ -90,5 +98,33 @@ public class Sphere extends GeometricObject {
         }
 
         return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public Sampler getSampler() {
+        return sampler;
+    }
+
+    @Override
+    public void setSampler(Sampler s) {
+        sampler = s;
+    }
+
+    @Override
+    public Point3D sample() {
+        Point3D h = sampler.sampleUnitHemisphere(samplerKey);
+        return new Point3D(h.x + center.x, -h.y + center.y, h.z + center.z);
+    }
+
+    @Override
+    public double pdf(ShadeRec sr) {
+        return invArea;
+    }
+
+    @Override
+    public Normal getNormal(Point3D p) {
+        Normal n = new Normal(p.subtract(center));
+        n.normalizeTo();
+        return n;
     }
 }

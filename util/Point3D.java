@@ -33,6 +33,10 @@ public class Point3D {
         return new Point3D(x + v.x, y + v.y, z + v.z);
     }
 
+    public Point3D add(Point3D v) {
+        return new Point3D(x + v.x, y + v.y, z + v.z);
+    }
+
     public Point3D subtract(Vector3D v) {
         return new Point3D(x - v.x, y - v.y, z - v.z);
     }

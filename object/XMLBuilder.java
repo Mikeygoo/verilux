@@ -93,7 +93,7 @@ public class XMLBuilder {
         int vpHeight = getIntegerAttribute(world, "height", 500);
         double zoom = getDoubleAttribute(world, "zoom", 1);
         Sampler sampler = parseSamplerNode(world, "viewplane-sampler");
-        ViewPlane vp = new ViewPlane(vpHeight, vpWidth, (float) zoom, 1.0f, sampler);
+        ViewPlane vp = new ViewPlane(vpHeight, vpWidth, (float) (1.0/zoom), 1.0f, sampler);
         w.setViewPlane(vp);
     }
 
@@ -216,7 +216,7 @@ public class XMLBuilder {
             dl.setRadiance((float) ls);
             RGBColor c = parseColorNode(n, "color");
             dl.setColor(c);
-            Vector3D v = parseVectorNode(n, "position");
+            Vector3D v = parseVectorNode(n, "direction");
             v.normalizeTo();
             dl.setDirection(v);
             return dl;
@@ -256,6 +256,8 @@ public class XMLBuilder {
             s.setCenter(pos);
             double r = getDoubleAttribute(getSubNode(n, "radius"), "r", 1);
             s.setRadius((float) r);
+            Sampler samp = parseSamplerNode(n, "sampler");
+            s.setSampler(samp);
             return s;
         }
 
@@ -267,7 +269,16 @@ public class XMLBuilder {
             Vector3D a = parseVectorNode(n, "a");
             Vector3D b = parseVectorNode(n, "b");
             r.setVectors(a, b);
-            Normal norm = parseNormalNode(n, "normal");
+            Normal norm;
+            if (getSubNode(n, "normal-default") != null) {
+                norm = new Normal(a.cross(b));
+            } else if (getSubNode(n, "normal-flip") != null) {
+                norm = new Normal(a.cross(b));
+                norm = norm.negate();
+            } else {
+                norm = parseNormalNode(n, "normal");
+            }
+            norm.normalizeTo();
             r.setNormal(norm);
             Sampler s = parseSamplerNode(n, "sampler");
             r.setSampler(s);
